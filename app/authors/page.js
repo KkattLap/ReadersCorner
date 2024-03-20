@@ -1,4 +1,4 @@
-import styles from "./authors.module.css";
+import styles from "./page.module.css";
 import { SAMPLE_DATA } from "../data";
 import Link from "next/link";
 import { lora } from "../fonts";

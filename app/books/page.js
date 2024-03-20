@@ -1,6 +1,6 @@
 import BookCard from "../bookCard";
 import { SAMPLE_DATA } from "../data";
-import styles from "./books.module.css";
+import styles from "./page.module.css";
 import { lora } from "../fonts";
 export default function Books() {
   return (

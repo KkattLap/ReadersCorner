@@ -1,4 +1,4 @@
-import styles from "./bookRead.module.css";
+import styles from "./page.module.css";
 import { SAMPLE_DATA } from "@/app/data";
 import { lora, openSans } from "@/app/fonts";
 export default function BookRead() {
