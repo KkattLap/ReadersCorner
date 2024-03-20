@@ -42,11 +42,11 @@ export default function RootLayout({ children }) {
             <Link href="/books" className="menu_link">
               Книги
             </Link>
+            <Link href="/poems" className="menu_link">
+              Стихотворения
+            </Link>
             <Link href="/authors" className="menu_link">
               Авторы
-            </Link>
-            <Link href="/genres" className="menu_link">
-              Жанры
             </Link>
           </div>
           <div>

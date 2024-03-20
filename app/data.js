@@ -1,3 +1,16 @@
+export const SAMPLE_POEMS = [
+  {
+    cover:
+      "https://ucarecdn.com/151d06c7-76d7-4a73-abbd-3e33b8014eac/pushkin.jpg",
+    author: "A.C. Пушкин",
+    authorEN: "A.S. Pushkin",
+    name: "Я вас любил, любовь еще, быть может",
+    nameEN: "I loved you; and I probably still do",
+    text: "Я вас любил: любовь еще, быть может,\nВ душе моей угасла не совсем;\nНо пусть она вас больше не тревожит;\nЯ не хочу печалить вас ничем.\nЯ вас любил безмолвно, безнадежно,\nТо робостью, то ревностью томим;\nЯ вас любил так искренно, так нежно,\nКак дай вам бог любимой быть другим.",
+    textEN:
+      "I loved you; and I probably still do,\nAnd for awhile the feeling may remain —\nBut let my love no longer trouble you:\nI do not wish to cause you any pain.\nI loved you; and the hopelessness I knew\nThe jealousy, the shyness — though in vain —\nMade up a love so tender and so true,\nAs may God grant you to be loved again.",
+  },
+];
 export const SAMPLE_DATA = [
   {
     cover:
