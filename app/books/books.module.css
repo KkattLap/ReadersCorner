@@ -19,8 +19,8 @@
   /* padding: 1rem; */
 }
 .headLevel {
-  font-family: "Open Sans";
-  font-size: 1rem;
+  /* font-family: "Open Sans";
+  font-size: 1rem; */
   display: inline-block;
   position: relative;
 }
@@ -31,10 +31,10 @@
   display: inline-flex;
   gap: 2rem;
 }
-.level {
+/* .level {
   font-family: "Open Sans";
   font-size: 1rem;
-}
+} */
 .level::before {
   content: " ";
   color: #000;

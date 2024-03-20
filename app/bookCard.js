@@ -1,6 +1,8 @@
 import styles from "./bookCard.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { openSans, lora } from "./fonts";
+
 export default function BookCard({ cover, name, author }) {
   return (
     <>
@@ -18,9 +20,12 @@ export default function BookCard({ cover, name, author }) {
           </div>
         </div>
         <div className={styles.cardBottom}>
-          <p>{name}</p>
-          <p>{author}</p>
-          <Link className={styles.readButton} href="/books/bookPage">
+          <p className={lora.className}>{name}</p>
+          <p className={lora.className}>{author}</p>
+          <Link
+            className={`${styles.readButton} ${lora.className}`}
+            href="/books/bookPage"
+          >
             Читать
           </Link>
         </div>

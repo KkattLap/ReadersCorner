@@ -63,7 +63,7 @@
 /* } */
 
 .headBook {
-  font-family: "Lora";
+  /* font-family: "Lora"; */
   font-size: 2rem;
 }
 
@@ -71,8 +71,8 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  font-family: "Open Sans";
-  font-size: 1rem;
+  /* font-family: "Open Sans";
+  font-size: 1rem; */
   /* text-align: center; */
   /* align-items: center; */
   /* align-content: center; */
@@ -81,6 +81,6 @@
 }
 
 .description {
-  font-family: "Open Sans";
-  font-size: 1rem;
+  /* font-family: "Open Sans";
+  font-size: 1rem; */
 }

@@ -2,7 +2,7 @@ import styles from "./recommendations.module.css";
 import BookCard from "./bookCard";
 import { SAMPLE_DATA } from "./data";
 import React from "react";
-
+import { lora } from "./fonts";
 export default function Recommendations(coverBook, nameBook, authorBook) {
   // const [scrollPosition, setScrollPosition] = useState(0);
   // const containerRef = useRef();
@@ -20,7 +20,7 @@ export default function Recommendations(coverBook, nameBook, authorBook) {
 
   return (
     <>
-      <p className={styles.headline}>Рекомендации</p>
+      <p className={`${lora.className} ${styles.headline}`}>Рекомендации</p>
       <div className={styles.scroll}>
         {SAMPLE_DATA.map((item) => (
           <BookCard

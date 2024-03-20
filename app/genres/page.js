@@ -1,3 +1,4 @@
+import { lora } from "../fonts";
 export default function Genres() {
-  return <div>Жанры</div>;
+  return <div className={`${lora.className}`}>Жанры</div>;
 }

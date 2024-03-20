@@ -1,10 +1,11 @@
 import BookCard from "../bookCard";
 import { SAMPLE_DATA } from "../data";
 import styles from "./books.module.css";
+import { lora } from "../fonts";
 export default function Books() {
   return (
     <>
-      <div className={styles.chooseLevel}>
+      <div className={`${styles.chooseLevel} ${lora.className}`}>
         <p className={styles.headLevel}> Уровень знания английского языка:</p>
         <div className={styles.levels}>
           <input type="checkbox" id="a1" className={styles.checkbox} />

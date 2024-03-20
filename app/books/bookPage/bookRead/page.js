@@ -1,6 +1,6 @@
 import styles from "./bookRead.module.css";
 import { SAMPLE_DATA } from "@/app/data";
-
+import { lora, openSans } from "@/app/fonts";
 export default function BookRead() {
   return (
     <>
@@ -76,8 +76,12 @@ export default function BookRead() {
             {/* </button> */}
           </div>
         </div>
-        <div className={styles.textHead}>{SAMPLE_DATA[0].head}</div>
-        <div className={styles.textBook}>{SAMPLE_DATA[0].text}</div>
+        <div className={`${styles.textHead} ${lora.className}`}>
+          {SAMPLE_DATA[0].head}
+        </div>
+        <div className={`${styles.textBook} ${openSans.className}`}>
+          {SAMPLE_DATA[0].text}
+        </div>
         <div className={styles.arrows}>
           <span
             class="material-symbols-outlined"

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SAMPLE_DATA } from "@/app/data";
 import Recommendations from "@/app/recommendations";
+import { lora, openSans } from "@/app/fonts";
 export default function BookPage() {
   return (
     <>
@@ -25,8 +26,10 @@ export default function BookPage() {
         </div>
         {/* Правая часть страницы */}
         <div className={styles.rightPart}>
-          <p className={styles.headBook}>{SAMPLE_DATA[0].name}</p>
-          <div className={styles.additionalInf}>
+          <p className={`${styles.headBook} ${lora.className} `}>
+            {SAMPLE_DATA[0].name}
+          </p>
+          <div className={`${styles.additionalInf} ${openSans.className}`}>
             <p>
               <b>Автор:</b> {SAMPLE_DATA[0].author}
             </p>
@@ -38,7 +41,7 @@ export default function BookPage() {
               {SAMPLE_DATA[0].level}
             </p>
           </div>
-          <div className={styles.description}>
+          <div className={`${styles.description} ${openSans.className}`}>
             <p>
               <b>Описание:</b> {SAMPLE_DATA[0].description}
             </p>

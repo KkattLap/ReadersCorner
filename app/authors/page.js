@@ -1,10 +1,11 @@
 import styles from "./authors.module.css";
 import { SAMPLE_DATA } from "../data";
 import Link from "next/link";
+import { lora } from "../fonts";
 export default function Authors() {
   return (
     <>
-      <div className={styles.mainTable}>
+      <div className={`${styles.mainTable} ${lora.className}`}>
         <div className={styles.authors}>
           <div className={styles.headAuthor}>Автор</div>
           {SAMPLE_DATA.map((item) => (

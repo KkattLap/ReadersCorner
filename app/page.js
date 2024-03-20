@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Tooltips from "./tooltips";
 import Recommendations from "./recommendations";
+import { lora, openSans } from "./fonts";
 export default function Home() {
   return (
     <>
@@ -10,21 +11,17 @@ export default function Home() {
       <div className={styles.main_motivation}>
         <div className={styles.motivation_text}>
           <p
+            className={lora.className}
             style={{
               fontSize: "3.5rem",
-              // textAlign: "left",
-              fontFamily: "Lora",
-              // fontWeight: "bolder",
             }}
           >
             Изучай английский язык без труда
           </p>
           <p
+            className={lora.className}
             style={{
               fontSize: "1rem",
-              // textAlign: "left",
-              fontFamily: "Lora",
-              // width: "30vw",
             }}
           >
             Параллельный перевод - твой ключ к успеху в мире знаний. Теперь вы
@@ -37,7 +34,10 @@ export default function Home() {
           <div style={{ height: "1rem" }}></div>
           <div>
             {/* <button className={styles.big_button}> */}
-            <Link className={styles.big_button} href="/books">
+            <Link
+              className={`${styles.big_button} ${lora.className}`}
+              href="/books"
+            >
               к выбору книг
               <Image
                 src="/arrow.svg"

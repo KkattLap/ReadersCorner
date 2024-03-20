@@ -1,8 +1,8 @@
-// import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
+import { openSans, lora } from "./fonts";
 
 export default function RootLayout({ children }) {
   return (
@@ -13,10 +13,6 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         />
-        {/* <link
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet"
-        ></link> */}
         <link
           href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
           rel="stylesheet"
@@ -32,7 +28,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <header>
+        <header className={openSans.className}>
           <div className="menu">
             <Link href="/" className="menu_link">
               <Image
@@ -61,7 +57,7 @@ export default function RootLayout({ children }) {
           </div>
         </header>
         <div className="content">{children}</div>
-        <footer>
+        <footer className={openSans.className}>
           <div className="footerItems">
             <Link href="/">Уровень А1</Link>
             <Link href="/">Уровень А2</Link>
