@@ -1,0 +1,23 @@
+.poemRead {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, 600px);
+  justify-content: center;
+  /* justify-items: center; */
+  column-gap: 2rem;
+  /* row-gap: 2rem; */
+  /* Сверху и снизу 0, авто слева и справа */
+  /* margin: 0 auto; */
+  /* background-color: antiquewhite; */
+}
+
+.poemRU,
+.poemEN {
+  min-width: 400px;
+  /* background-color: aqua; */
+}
+
+.headPoem {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
