@@ -1,0 +1,86 @@
+.bookPage {
+  display: flex;
+  height: 90vh;
+}
+.leftPart {
+  /* align-self: center; */
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 40vw;
+  /* background-color: antiquewhite; */
+  text-align: center;
+}
+.cover {
+  position: relative;
+  width: 70%;
+  height: 70%;
+  /* box-shadow: 0px 3px 8px 0px rgba(109, 109, 109, 0.5); */
+  aspect-ratio: 1 / 1;
+}
+.readButton {
+  text-decoration: none;
+  color: white;
+  padding: 1rem 20% 1rem 20%;
+  font-family: "Lora";
+  font-size: 2rem;
+  background-color: #b591ff;
+  /* inline для выравнивания кнопки */
+  display: inline-flex;
+  justify-content: center;
+  height: fit-content;
+  width: 70%;
+  border-radius: 5px;
+  border: 2px solid #b591ff;
+  box-shadow: 0px 3px 8px 0px rgba(109, 109, 109, 0.5);
+}
+.downloadButton {
+  text-decoration: none;
+  color: white;
+  padding: 1rem 20% 1rem 20%;
+  font-family: "Lora";
+  font-size: 2rem;
+  color: #b591ff;
+  background-color: #ffffff;
+  /* inline для выравнивания кнопки */
+  display: inline-flex;
+  justify-content: center;
+  height: fit-content;
+  width: 70%;
+  border-radius: 5px;
+  border: 2px solid #b591ff;
+  box-shadow: 0px 3px 8px 0px rgba(109, 109, 109, 0.5);
+}
+/* .rightPart { */
+/* display: flex;
+  flex-direction: column;
+  justify-content: space-around; */
+/* width: 55vw; */
+/* height: 600vh; */
+/* background-color: aliceblue; */
+/* } */
+
+.headBook {
+  font-family: "Lora";
+  font-size: 2rem;
+}
+
+.additionalInf {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-family: "Open Sans";
+  font-size: 1rem;
+  /* text-align: center; */
+  /* align-items: center; */
+  /* align-content: center; */
+  height: 40vh;
+  /* background-color: #b591ff; */
+}
+
+.description {
+  font-family: "Open Sans";
+  font-size: 1rem;
+}

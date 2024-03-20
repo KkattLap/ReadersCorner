@@ -1,0 +1,41 @@
+.card_top {
+  height: 70%;
+  width: 100%;
+  padding: 1rem;
+  /* background-color: antiquewhite; */
+}
+.bookCard {
+  height: 530px;
+  width: 320px;
+  /* В скроллящемся списке не меняется ширина */
+  min-width: 320px;
+  /* margin-left: 2vw; */
+  display: flex;
+  flex-direction: column;
+  /* position: relative; */
+  /* text-align: center; */
+  /* background-color: antiquewhite; */
+  box-shadow: 0px 3px 8px 0px rgba(109, 109, 109, 0.5);
+}
+.cardBottom {
+  width: 100%;
+  /* Для выравнивания кнопки */
+  text-align: center;
+  /* background-color: aqua; */
+}
+.readButton {
+  text-decoration: none;
+  color: white;
+  padding: 1rem;
+  font-family: "Lora";
+  font-size: 1rem;
+  background-color: #b591ff;
+  /* inline для выравнивания кнопки */
+  display: inline-flex;
+  justify-content: center;
+  height: fit-content;
+  width: 90%;
+  border-radius: 5px;
+  border: 2px solid #b591ff;
+  box-shadow: 0px 3px 8px 0px rgba(109, 109, 109, 0.5);
+}

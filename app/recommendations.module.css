@@ -1,0 +1,26 @@
+.headline {
+  font-family: "Lora";
+  font-size: 3rem;
+  display: inline-block;
+  position: relative;
+  margin-left: 5vw;
+}
+
+.headline::after {
+  background-color: black;
+  content: "";
+  height: 2px;
+  width: 50%;
+  position: absolute;
+  left: calc(50% / 2);
+  bottom: 0;
+}
+
+.scroll {
+  display: flex;
+  justify-content: space-between;
+  overflow-x: scroll;
+  padding: 1rem;
+  gap: 2rem;
+  /* width: 90vw; */
+}

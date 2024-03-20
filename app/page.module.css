@@ -1,0 +1,35 @@
+.main_motivation {
+  display: flex;
+  /* align-items: center; */
+  /* margin-top: calc(90vh / 2); */
+  justify-content: space-between;
+}
+
+.main_motivation .motivation_text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 35vw;
+  height: 90vh;
+  /* height: fit-content; */
+  margin-left: 5vw;
+  /* text-align: center; */
+  /* background-color: antiquewhite; */
+  /* text-align: center; */
+}
+.main_motivation .motivation_text .big_button {
+  text-decoration: none;
+  color: white;
+  padding: 1rem;
+  font-family: Lora;
+  font-size: 1rem;
+  background-color: #b591ff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  height: fit-content;
+  width: fit-content;
+  border-radius: 5px;
+  border: 2px solid #b591ff;
+  box-shadow: 0px 3px 8px 0px rgba(109, 109, 109, 0.5);
+}
