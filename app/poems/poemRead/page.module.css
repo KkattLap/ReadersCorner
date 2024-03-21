@@ -1,11 +1,13 @@
 .poemRead {
+  margin-top: 2rem;
   display: grid;
   width: 100%;
   grid-template-columns: repeat(auto-fit, 600px);
-  justify-content: center;
-  /* justify-items: center; */
-  column-gap: 2rem;
-  /* row-gap: 2rem; */
+  justify-content: space-around;
+  justify-items: start;
+  align-items: center;
+  /* column-gap: 2rem; */
+  row-gap: 2rem;
   /* Сверху и снизу 0, авто слева и справа */
   /* margin: 0 auto; */
   /* background-color: antiquewhite; */
@@ -13,8 +15,12 @@
 
 .poemRU,
 .poemEN {
-  min-width: 400px;
-  /* background-color: aqua; */
+  min-width: 600px;
+  width: fit-content;
+  background-color: aqua;
+  background-color: #f1eeee;
+  padding: 0.5rem;
+  border-radius: 10px;
 }
 
 .headPoem {

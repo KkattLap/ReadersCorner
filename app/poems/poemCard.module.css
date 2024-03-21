@@ -15,7 +15,10 @@
   display: flex;
   align-items: center;
   min-width: 500px;
-  background-color: aqua;
+  /* width: fit-content; */
+  background-color: #f1eeee;
+  padding: 0.5rem;
+  border-radius: 10px;
   /* justify-content: space-between; */
 }
 

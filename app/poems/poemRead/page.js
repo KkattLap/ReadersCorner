@@ -23,6 +23,24 @@ export default function PoemRead() {
             <pre className={`${lora.className}`}>{SAMPLE_POEMS[0].textEN}</pre>
           </div>
         </div>
+        <div className={styles.poemEN}>
+          <div className={`${lora.className} ${styles.headPoem}`}>
+            <div>{SAMPLE_POEMS[0].authorEN}</div>
+            <div>{SAMPLE_POEMS[0].nameEN}</div>
+          </div>
+          <div className={`${lora.className}`}>
+            <pre className={`${lora.className}`}>{SAMPLE_POEMS[0].textEN}</pre>
+          </div>
+        </div>
+        <div className={styles.poemEN}>
+          <div className={`${lora.className} ${styles.headPoem}`}>
+            <div>{SAMPLE_POEMS[0].authorEN}</div>
+            <div>{SAMPLE_POEMS[0].nameEN}</div>
+          </div>
+          <div className={`${lora.className}`}>
+            <pre className={`${lora.className}`}>{SAMPLE_POEMS[0].textEN}</pre>
+          </div>
+        </div>
       </div>
     </>
   );
