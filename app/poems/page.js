@@ -10,7 +10,7 @@ export default function Poems() {
       <div className={styles.poems}>
         {runCallback(() => {
           const row = [];
-          for (var i = 0; i < 5; i++) {
+          for (var i = 0; i < 9; i++) {
             row.push(<PoemCard />);
           }
           return row;

@@ -6,7 +6,7 @@
   justify-items: center;
   column-gap: 2rem;
   row-gap: 2rem;
-  /* Сверху и снизу 0, авто слева и справа */
-  margin: 0 auto;
-  background-color: antiquewhite;
+  /* Сверху 1 и снизу 0, авто слева и справа */
+  margin: 1rem 0 auto;
+  /* background-color: antiquewhite; */
 }
