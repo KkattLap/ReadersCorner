@@ -75,10 +75,21 @@ header .menu .menu_link {
 footer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 1rem;
   flex-shrink: 0;
+  padding: 1rem;
 }
-
+.vertLine {
+  height: 100px;
+  width: 1px;
+  background-color: #9e9c9c;
+}
+.vertLine2 {
+  height: 70px;
+  width: 1px;
+  background-color: #9e9c9c;
+}
 footer .footerItems {
   display: flex;
   flex-direction: column;

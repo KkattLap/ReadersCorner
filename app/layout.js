@@ -58,18 +58,29 @@ export default function RootLayout({ children }) {
         </header>
         <div className="content">{children}</div>
         <footer className={openSans.className}>
+          <Image
+            src="/logo.svg"
+            width={86}
+            height={76}
+            alt="logo"
+            className="logo"
+          ></Image>
+          <div className="vertLine"></div>
           <div className="footerItems">
             <Link href="/">Уровень А1</Link>
             <Link href="/">Уровень А2</Link>
           </div>
+          <div className="vertLine2"></div>
           <div className="footerItems">
             <Link href="/">Уровень B1</Link>
             <Link href="/">Уровень B2</Link>
           </div>
+          <div className="vertLine2"></div>
           <div className="footerItems">
             <Link href="/">Уровень C1</Link>
             <Link href="/">Уровень C2</Link>
           </div>
+          <div className="vertLine"></div>
           <div className="contacts">
             <div className="footerContacts">
               <Image src="/mail.svg" height={30} width={30} alt="mail"></Image>
