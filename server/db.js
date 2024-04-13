@@ -171,14 +171,16 @@ const sequelize = new Sequelize(
 //   onDelete: "CASCADE",
 //   onUpdate: "CASCADE",
 // });
-
-app.get("/AuthorsBooks", async (req, res) => {
+async function authenticateDB() {
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
   } catch (error) {
     console.error("Unable to connect to the database:", error);
   }
+}
+app.get("/AuthorsBooks", async (req, res) => {
+  authenticateDB();
 
   const [allAuthorBooks, metadata] = await sequelize.query(
     `SELECT * from public."Authors"
@@ -190,6 +192,8 @@ app.get("/AuthorsBooks", async (req, res) => {
   res.send(allAuthorBooks);
 });
 app.get("/AuthorsPoems", async (req, res) => {
+  authenticateDB();
+
   const [allAuthorPoems, metadata] = await sequelize.query(
     `SELECT * from public."Authors"
     JOIN public."AuthorsPoems"
@@ -201,6 +205,8 @@ app.get("/AuthorsPoems", async (req, res) => {
 });
 
 app.get("/Authors", async (req, res) => {
+  authenticateDB();
+
   const [Authors, metadata] = await sequelize.query(
     `SELECT * from public."Authors"`
   );
