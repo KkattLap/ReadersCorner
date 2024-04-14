@@ -16,19 +16,19 @@ export default function BookCard({ cover, name, author }) {
               // background: "black",
             }}
           >
-            <Image src={cover} fill alt="cover"></Image>
+            <Image src={cover} fill alt="cover" objectFit="contain"></Image>
           </div>
         </div>
         <div className={styles.cardBottom}>
-          <p className={lora.className}>{name}</p>
-          <p className={lora.className}>{author}</p>
-          <Link
-            className={`${styles.readButton} ${lora.className}`}
-            href="/books/bookPage"
-          >
-            Читать
-          </Link>
+          <p className={`${lora.className} ${styles.bookName}`}>{name}</p>
+          <p className={`${lora.className} ${styles.authorName}`}>{author}</p>
         </div>
+        <Link
+          className={`${styles.readButton} ${lora.className}`}
+          href="/books/bookPage"
+        >
+          Читать
+        </Link>
       </div>
     </>
   );
