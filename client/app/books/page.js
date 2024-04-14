@@ -2,7 +2,24 @@ import BookCard from "../bookCard";
 import { SAMPLE_DATA } from "../data";
 import styles from "./page.module.css";
 import { lora } from "../fonts";
-export default function Books() {
+
+async function getData() {
+  const res = await fetch("http://localhost:8080/AuthorsBooks", {
+    cache: "no-store",
+  });
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+  const data = res.json();
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+
+  return data;
+}
+
+export default async function Books() {
+  const result = await getData();
   return (
     <>
       <div className={`${styles.chooseLevel} ${lora.className}`}>
@@ -35,12 +52,20 @@ export default function Books() {
         </div>
       </div>
       <div className={styles.catalog}>
-        {SAMPLE_DATA.map((item) => (
+        {/* {SAMPLE_DATA.map((item) => (
           <BookCard
             key={item.id}
             cover={item.cover}
             name={item.name}
             author={item.author}
+          ></BookCard>
+        ))} */}
+        {result.map((item) => (
+          <BookCard
+            key={item.book_id}
+            cover={item.cover}
+            name={item.book_name}
+            author={item.full_name}
           ></BookCard>
         ))}
       </div>
