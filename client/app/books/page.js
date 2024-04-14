@@ -37,6 +37,7 @@ export default function Books() {
       <div className={styles.catalog}>
         {SAMPLE_DATA.map((item) => (
           <BookCard
+            key={item.id}
             cover={item.cover}
             name={item.name}
             author={item.author}

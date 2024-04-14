@@ -1,5 +1,6 @@
 export const SAMPLE_POEMS = [
   {
+    id: 1,
     cover:
       "https://ucarecdn.com/151d06c7-76d7-4a73-abbd-3e33b8014eac/pushkin.jpg",
     author: "A.C. Пушкин",
@@ -13,6 +14,7 @@ export const SAMPLE_POEMS = [
 ];
 export const SAMPLE_DATA = [
   {
+    id: 2,
     cover:
       "https://ucarecdn.com/5342e9c5-d583-4d13-9ddc-8c94ccb22183/cover.svg",
     name: "Гарри Поттер и философский камень",
@@ -27,6 +29,7 @@ export const SAMPLE_DATA = [
       "Сюжет строится вокруг главного героя, сироты Гарри Поттера, который узнаёт, что он волшебник в его одиннадцатый день рождения. Обучаясь в школе чародейства и волшебства «Хогвартс», он заводит себе близких друзей, Рона Уизли и Гермиону Грейнджер, с помощью которых останавливает попытку возвращения злого волшебника Волан-де-Морта, убившего родителей Гарри, когда ему было всего шесть месяцев.",
   },
   {
+    id: 3,
     cover:
       "https://ucarecdn.com/5342e9c5-d583-4d13-9ddc-8c94ccb22183/cover.svg",
     name: "Гарри Поттер и философский камень",
@@ -35,6 +38,7 @@ export const SAMPLE_DATA = [
     count: 243,
   },
   {
+    id: 4,
     cover:
       "https://ucarecdn.com/5342e9c5-d583-4d13-9ddc-8c94ccb22183/cover.svg",
     name: "Гарри Поттер и философский камень",
@@ -43,6 +47,7 @@ export const SAMPLE_DATA = [
     count: 6,
   },
   {
+    id: 5,
     cover:
       "https://ucarecdn.com/5342e9c5-d583-4d13-9ddc-8c94ccb22183/cover.svg",
     name: "Гарри Поттер и философский камень",
@@ -51,6 +56,7 @@ export const SAMPLE_DATA = [
     count: 543,
   },
   {
+    id: 6,
     cover:
       "https://ucarecdn.com/5342e9c5-d583-4d13-9ddc-8c94ccb22183/cover.svg",
     name: "Гарри Поттер и философский камень",
@@ -59,6 +65,7 @@ export const SAMPLE_DATA = [
     count: 20,
   },
   {
+    id: 7,
     cover:
       "https://ucarecdn.com/5342e9c5-d583-4d13-9ddc-8c94ccb22183/cover.svg",
     name: "Гарри Поттер и философский камень",
@@ -67,6 +74,7 @@ export const SAMPLE_DATA = [
     count: 8,
   },
   {
+    id: 8,
     cover:
       "https://ucarecdn.com/5342e9c5-d583-4d13-9ddc-8c94ccb22183/cover.svg",
     name: "Гарри Поттер и философский камень",
@@ -75,6 +83,7 @@ export const SAMPLE_DATA = [
     count: 567,
   },
   {
+    id: 9,
     cover:
       "https://ucarecdn.com/5342e9c5-d583-4d13-9ddc-8c94ccb22183/cover.svg",
     name: "Гарри Поттер и философский камень",
@@ -83,6 +92,7 @@ export const SAMPLE_DATA = [
     count: 78,
   },
   {
+    id: 10,
     cover:
       "https://ucarecdn.com/5342e9c5-d583-4d13-9ddc-8c94ccb22183/cover.svg",
     name: "Гарри Поттер и философский камень",
@@ -91,6 +101,7 @@ export const SAMPLE_DATA = [
     count: 55,
   },
   {
+    id: 11,
     cover:
       "https://ucarecdn.com/5342e9c5-d583-4d13-9ddc-8c94ccb22183/cover.svg",
     name: "Гарри Поттер и философский камень",
@@ -99,6 +110,7 @@ export const SAMPLE_DATA = [
     count: 78,
   },
   {
+    id: 12,
     cover:
       "https://ucarecdn.com/5342e9c5-d583-4d13-9ddc-8c94ccb22183/cover.svg",
     name: "Гарри Поттер и философский камень",

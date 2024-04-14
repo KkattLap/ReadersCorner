@@ -9,7 +9,7 @@ export default function Authors() {
         <div className={styles.authors}>
           <div className={styles.headAuthor}>Автор</div>
           {SAMPLE_DATA.map((item) => (
-            <Link href="/" className={styles.itemA}>
+            <Link key={item.id} href="/" className={styles.itemA}>
               {item.author}
             </Link>
           ))}
@@ -18,7 +18,9 @@ export default function Authors() {
           {/* &#8203; */}
           <div className={styles.headCount}>Произведений</div>
           {SAMPLE_DATA.map((item) => (
-            <div className={styles.itemB}>{item.count}</div>
+            <div key={item.id} className={styles.itemB}>
+              {item.count}
+            </div>
           ))}
         </div>
       </div>
