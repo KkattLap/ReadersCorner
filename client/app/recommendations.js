@@ -21,8 +21,8 @@ async function getData() {
 
 export default async function Recommendations(coverBook, nameBook, authorBook) {
   const result = await getData();
-  console.log("RESULT:");
-  console.log(result);
+  // console.log("RESULT:");
+  // console.log(result);
 
   // const [scrollPosition, setScrollPosition] = useState(0);
   // const containerRef = useRef();
