@@ -25,7 +25,7 @@ export default function BookCard({ cover, name, author }) {
         </div>
         <Link
           className={`${styles.readButton} ${lora.className}`}
-          href="/books/bookPage"
+          href={`/books/${name}`}
         >
           Читать
         </Link>
