@@ -1,9 +1,11 @@
 "use client";
 import { ReactReader } from "react-reader";
 import React, { useState, useEffect, useRef } from "react";
-import { Tooltip } from "react-tooltip";
-import ReactTooltip from "./tooltip";
+// import { Tooltip } from "react-tooltip";
+import axios from "axios";
 import styles from "./read.module.css";
+
+// const translate = require("google-translate-api");
 
 export default function Read({ bookText }) {
   const [location, setLocation] = useState(0);
@@ -11,6 +13,22 @@ export default function Read({ bookText }) {
   // Позволяет "вешать" события внутри ReactReader
   // useState<Rendition | undefined>(undefined)
   const [rendition, setRendition] = useState(undefined);
+  const [translatedText, setTranslatedText] = useState("");
+
+  // translate("I spea Dutch!", { from: "en", to: "nl" })
+  //   .then((res) => {
+  //     console.log(res.text);
+  //     //=> Ik spreek Nederlands!
+  //     console.log(res.from.text.autoCorrected);
+  //     //=> true
+  //     console.log(res.from.text.value);
+  //     //=> I [speak] Dutch!
+  //     console.log(res.from.text.didYouMean);
+  //     //=> false
+  //   })
+  // .catch((err) => {
+  //   console.error(err);
+  // });
 
   // const [tooltipText, setTooltipText] = useState("");
   // const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -45,6 +63,28 @@ export default function Read({ bookText }) {
           const x = range.left + contents.window.pageXOffset + 50;
           const y = range.top + contents.window.pageYOffset + 16;
 
+          (async () => {
+            try {
+              const response = await fetch("http://localhost:8080/translate", {
+                cache: "no-store",
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ text: selectedText }),
+              });
+
+              if (response.ok) {
+                const data = await response.json();
+                setTranslatedText(data.translatedText);
+              } else {
+                console.error("Failed to translate text");
+              }
+            } catch (error) {
+              console.error("Error translating text:", error);
+            }
+          })();
+
           // setTooltipPosition({ x, y });
 
           const selection = contents.window.getSelection();
@@ -74,6 +114,7 @@ export default function Read({ bookText }) {
       {selections.map(({ text, cfiRange }, i) => (
         <li key={i} className="p-2">
           <span>{text}</span>
+          <span>{translatedText}</span>
           <button
             onClick={() => {
               rendition?.display(cfiRange);
@@ -121,7 +162,8 @@ export default function Read({ bookText }) {
         <ReactReader
           // id="reader"
 
-          url="https://raw.githubusercontent.com/KkattLap/epubBooks/main/alice.epub"
+          url={bookText}
+          // url="https://raw.githubusercontent.com/KkattLap/epubBooks/main/A_Son_of_the_Sun.epub"
           location={location}
           locationChanged={(epubcfi) => setLocation(epubcfi)}
           epubInitOptions={{
