@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function PoemCard({ author, poem, cover }) {
   return (
     <>
-      <Link href="/poems/poemRead" className={styles.linkCard}>
+      <Link href={`/poems/${poem}`} className={styles.linkCard}>
         <div className={`${styles.poemCard} ${lora.className}`}>
           <div className={styles.portrait}>
             <Image src={cover} fill alt="portrait" objectFit="cover"></Image>
