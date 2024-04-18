@@ -213,6 +213,21 @@ app.get("/AuthorsBooks/:id", async (req, res) => {
   res.send(AuthorBook);
 });
 
+app.get("/AuthorsPoems/:id", async (req, res) => {
+  authenticateDB();
+  str = "'" + req.params.id + "'";
+  console.log(str);
+  const [AuthorBook, metadata] = await sequelize.query(
+    `SELECT * from public."Authors"
+    JOIN public."AuthorsPoems"
+    ON public."Authors".author_id = public."AuthorsPoems".fk_author_id
+    JOIN public."Poems"
+    ON public."Poems".poem_id = public."AuthorsPoems".fk_poem_id
+    WHERE "Poems".poem_name = ${str}`
+  );
+  res.send(AuthorBook);
+});
+
 app.get("/AuthorsPoems", async (req, res) => {
   authenticateDB();
 
