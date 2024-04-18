@@ -1,9 +1,15 @@
 const express = require("express");
 const { Sequelize, DataTypes } = require("sequelize");
+const translate = require("@iamtraction/google-translate");
 // const { DESCRIBE } = require("sequelize/lib/query-types");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
 const port = 8080;
+
+app.use(bodyParser.json());
+app.use(cors());
 
 const sequelize = new Sequelize(
   "postgres://postgres:12345@localhost:5432/readersCorner"
@@ -206,6 +212,7 @@ app.get("/AuthorsBooks/:id", async (req, res) => {
   );
   res.send(AuthorBook);
 });
+
 app.get("/AuthorsPoems", async (req, res) => {
   authenticateDB();
 
@@ -226,6 +233,23 @@ app.get("/Authors", async (req, res) => {
     `SELECT * from public."Authors"`
   );
   res.send(Authors);
+});
+
+app.post("/translate", async (req, res) => {
+  const { text } = req.body.text;
+  console.log(req.body.text);
+  // console.log(text);
+
+  translate(req.body.text, { to: "ru" })
+    .then((result) => {
+      console.log(result.text);
+      const translatedText = result.text;
+      res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+      res.status(200).json({ translatedText });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 });
 
 app.listen(port, () => {
