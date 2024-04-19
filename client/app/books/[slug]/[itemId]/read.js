@@ -1,8 +1,8 @@
 "use client";
 import { ReactReader } from "react-reader";
 import React, { useState, useEffect, useRef } from "react";
+import ReadHead from "./readHead";
 // import { Tooltip } from "react-tooltip";
-import axios from "axios";
 import styles from "./read.module.css";
 
 // const translate = require("google-translate-api");
@@ -12,23 +12,13 @@ export default function Read({ bookText }) {
   const [selections, setSelections] = useState([]);
   // Позволяет "вешать" события внутри ReactReader
   // useState<Rendition | undefined>(undefined)
-  const [rendition, setRendition] = useState(undefined);
-  const [translatedText, setTranslatedText] = useState("");
-
-  // translate("I spea Dutch!", { from: "en", to: "nl" })
-  //   .then((res) => {
-  //     console.log(res.text);
-  //     //=> Ik spreek Nederlands!
-  //     console.log(res.from.text.autoCorrected);
-  //     //=> true
-  //     console.log(res.from.text.value);
-  //     //=> I [speak] Dutch!
-  //     console.log(res.from.text.didYouMean);
-  //     //=> false
-  //   })
-  // .catch((err) => {
-  //   console.error(err);
-  // });
+  const [renditionSelect, setRenditionSelect] = useState(undefined);
+  const rendition = useRef(undefined);
+  const [translatedText, setTranslatedText] = useState([]);
+  const [largeText, setLargeText] = useState(false);
+  useEffect(() => {
+    rendition.current?.themes.fontSize(largeText ? "140%" : "100%");
+  }, [largeText]);
 
   // const [tooltipText, setTooltipText] = useState("");
   // const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -36,18 +26,19 @@ export default function Read({ bookText }) {
 
   // устанавливает обработчик события `selected` для `rendition`
   useEffect(() => {
-    if (rendition) {
+    if (renditionSelect) {
       // setRenderSelection(cfiRange: string, contents: Contents)
       function setRenderSelection(cfiRange, contents) {
-        if (rendition) {
+        // Если пользователь что-то выделил
+        if (renditionSelect) {
           setSelections((list) =>
             list.concat({
-              text: rendition.getRange(cfiRange).toString(),
+              text: renditionSelect.getRange(cfiRange).toString(),
               cfiRange,
             })
           );
-
-          rendition.annotations.add(
+          // Выделить красным цветом выделенный текст
+          renditionSelect.annotations.add(
             "highlight",
             cfiRange,
             {},
@@ -57,12 +48,14 @@ export default function Read({ bookText }) {
           );
           // setIsTooltipVisible(true);
           // setTooltipText(rendition.getRange(cfiRange).toString());
-          const selectedText = rendition.getRange(cfiRange).toString();
-          const range = rendition.getRange(cfiRange).getBoundingClientRect();
+          const selectedText = renditionSelect.getRange(cfiRange).toString();
+          const range = renditionSelect
+            .getRange(cfiRange)
+            .getBoundingClientRect();
           // pageXOffset и pageYOffset - верхний левый угол ReactReader
           const x = range.left + contents.window.pageXOffset + 50;
           const y = range.top + contents.window.pageYOffset + 16;
-
+          // Получение перевода выделенного текста
           (async () => {
             try {
               const response = await fetch("http://localhost:8080/translate", {
@@ -76,7 +69,12 @@ export default function Read({ bookText }) {
 
               if (response.ok) {
                 const data = await response.json();
-                setTranslatedText(data.translatedText);
+                setTranslatedText((list) =>
+                  list.concat({
+                    textTranslate: data.translatedText,
+                    cfiRange,
+                  })
+                );
               } else {
                 console.error("Failed to translate text");
               }
@@ -92,40 +90,46 @@ export default function Read({ bookText }) {
           selection?.removeAllRanges();
         }
       }
-      // rendition.on("rendered", (e, i) => {
-      //   i.document.documentElement.addEventListener(
-      //     "click",
-      //     (cfiRange, contents) => {
-      //       // console.log("hey");
-      //       setIsTooltipVisible(false);
-      //     }
-      //   );
-      // });
-      rendition.on("selected", setRenderSelection);
+      // Срабатывает при выделении текста внутри ReactReader
+      renditionSelect.on("selected", setRenderSelection);
       return () => {
-        rendition?.off("selected", setRenderSelection);
+        renditionSelect?.off("selected", setRenderSelection);
       };
     }
-  }, [setSelections, rendition]);
+  }, [setSelections, setTranslatedText, renditionSelect]);
 
   return (
     <>
-      <div>Selections </div>
+      <ReadHead changeFontSize={() => setLargeText(!largeText)}></ReadHead>
+      {/* <button onClick={() => setLargeText(!largeText)} className="btn">
+        Toggle font-size
+      </button> */}
+
       {selections.map(({ text, cfiRange }, i) => (
-        <li key={i} className="p-2">
+        <li key={i} className={styles.item}>
           <span>{text}</span>
-          <span>{translatedText}</span>
+          {translatedText.length > i && translatedText[i] ? (
+            <div className={styles.translate}>
+              Перевод: {translatedText[i].textTranslate}
+            </div>
+          ) : (
+            <div className={styles.translate}>
+              Ожидание получения перевода...
+            </div>
+          )}
           <button
+            className={styles.showButton}
             onClick={() => {
-              rendition?.display(cfiRange);
+              renditionSelect?.display(cfiRange);
             }}
           >
             Show
           </button>
 
           <button
+            className={styles.removeButton}
             onClick={() => {
-              rendition?.annotations.remove(cfiRange, "highlight");
+              renditionSelect?.annotations.remove(cfiRange, "highlight");
               setSelections(selections.filter((item, j) => j !== i));
             }}
           >
@@ -160,12 +164,11 @@ export default function Read({ bookText }) {
         )} */}
 
         <ReactReader
-          // id="reader"
-
           url={bookText}
           // url="https://raw.githubusercontent.com/KkattLap/epubBooks/main/A_Son_of_the_Sun.epub"
           location={location}
-          locationChanged={(epubcfi) => setLocation(epubcfi)}
+          // locationChanged={(epubcfi) => setLocation(epubcfi)}
+          locationChanged={(loc) => setLocation(loc)}
           epubInitOptions={{
             openAs: "epub",
           }}
@@ -174,7 +177,17 @@ export default function Read({ bookText }) {
             allowScriptedContent: true, // Adds `allow-scripts` to sandbox-attribute
           }}
           getRendition={(_rendition) => {
-            setRendition(_rendition);
+            setRenditionSelect(_rendition);
+            rendition.current = _rendition;
+            _rendition.hooks.content.register((contents) => {
+              const body = contents.window.document.querySelector("body");
+              if (body) {
+                body.oncontextmenu = () => {
+                  return false;
+                };
+              }
+            });
+            rendition.current.themes.fontSize(largeText ? "140%" : "100%");
           }}
         ></ReactReader>
         {/* {selectedText && <Tooltip></Tooltip>} */}
