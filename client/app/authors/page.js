@@ -30,7 +30,6 @@ export default async function Authors() {
   const keys = Object.keys(countMap);
   return (
     <>
-      <div>{countMap[6]}</div>
       <div className={`${styles.mainTable} ${lora.className}`}>
         <div className={styles.authors}>
           <div className={styles.headAuthor}>Автор</div>
