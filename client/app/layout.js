@@ -3,6 +3,7 @@ import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
 import { openSans, lora } from "./fonts";
+import Search from "./searchInput";
 
 export default function RootLayout({ children }) {
   return (
@@ -49,13 +50,9 @@ export default function RootLayout({ children }) {
               Авторы
             </Link>
           </div>
-          <div>
-            <form action="" method="get" className="headerSearch">
-              <input placeholder="Поиск" type="text" />
-              <button type="submit"></button>
-            </form>
-          </div>
+          <Search></Search>
         </header>
+
         <div className="content">{children}</div>
         <footer className={openSans.className}>
           <Image
