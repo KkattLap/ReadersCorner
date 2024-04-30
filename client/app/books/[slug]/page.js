@@ -48,10 +48,7 @@ export default async function BookPage({ params }) {
           >
             Читать
           </Link>
-          <Link
-            href="/books/bookPage/bookRead"
-            className={styles.downloadButton}
-          >
+          <Link href={data[0].content} className={styles.downloadButton}>
             Скачать
           </Link>
         </div>
