@@ -249,11 +249,14 @@ app.get("/Authors", async (req, res) => {
   );
   res.send(Authors);
 });
-
+app.post("/auth", async (req, res) => {
+  const { userName, password } = req.body;
+  console.log(req.body);
+  console.log(userName, password);
+});
 app.post("/translate", async (req, res) => {
   const { text } = req.body.text;
   console.log(req.body.text);
-  // console.log(text);
 
   translate(req.body.text, { to: "ru" })
     .then((result) => {
