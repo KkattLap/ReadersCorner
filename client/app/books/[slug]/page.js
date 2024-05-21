@@ -6,7 +6,7 @@ import Recommendations from "@/app/recommendations";
 import { lora, openSans } from "@/app/fonts";
 
 export async function generateStaticParams() {
-  const cards = await fetch("http://localhost:8080/AuthorsBooks").then((res) =>
+  const cards = await fetch("http://localhost:3000/AuthorsBooks").then((res) =>
     res.json()
   );
   // console.log(
@@ -22,7 +22,7 @@ export async function generateStaticParams() {
 export default async function BookPage({ params }) {
   // console.log(params.slug);
   const data = await fetch(
-    `http://localhost:8080/AuthorsBooks/${params.slug}`
+    `http://localhost:3000/AuthorsBooks/${params.slug}`
   ).then((res) => res.json());
   // console.log("КОНКРЕТНАЯ ЗАПИСЬ", data);
 

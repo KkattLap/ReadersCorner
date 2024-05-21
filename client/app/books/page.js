@@ -6,7 +6,7 @@ import { lora } from "../fonts";
 import { useState, useEffect } from "react";
 
 async function getData() {
-  const res = await fetch("http://localhost:8080/AuthorsBooks", {
+  const res = await fetch("http://localhost:3000/AuthorsBooks", {
     cache: "no-store",
   });
   // The return value is *not* serialized

@@ -58,7 +58,7 @@ export default function Read({ bookText }) {
           // Получение перевода выделенного текста
           (async () => {
             try {
-              const response = await fetch("http://localhost:8080/translate", {
+              const response = await fetch("http://localhost:3000/translate", {
                 cache: "no-store",
                 method: "POST",
                 headers: {

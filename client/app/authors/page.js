@@ -3,13 +3,13 @@ import { SAMPLE_DATA } from "../data";
 import Link from "next/link";
 import { lora } from "../fonts";
 export default async function Authors() {
-  const res1 = await fetch("http://localhost:8080/AuthorsBooks", {
+  const res1 = await fetch("http://localhost:3000/AuthorsBooks", {
     cache: "no-store",
   });
-  const res2 = await fetch("http://localhost:8080/AuthorsPoems", {
+  const res2 = await fetch("http://localhost:3000/AuthorsPoems", {
     cache: "no-store",
   });
-  const res3 = await fetch("http://localhost:8080/Authors", {
+  const res3 = await fetch("http://localhost:3000/AllAuthors", {
     cache: "no-store",
   });
   const data1 = await res1.json();

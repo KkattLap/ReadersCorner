@@ -6,7 +6,7 @@ import { SAMPLE_POEMS } from "../data";
 // };
 
 async function getData() {
-  const res = await fetch("http://localhost:8080/AuthorsPoems", {
+  const res = await fetch("http://localhost:3000/AuthorsPoems", {
     cache: "no-store",
   });
   // The return value is *not* serialized

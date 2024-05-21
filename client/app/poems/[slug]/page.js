@@ -3,7 +3,7 @@ import { lora, openSans } from "@/app/fonts";
 import styles from "./page.module.css";
 
 export async function generateStaticParams() {
-  const cards = await fetch("http://localhost:8080/AuthorsPoems").then((res) =>
+  const cards = await fetch("http://localhost:3000/AuthorsPoems").then((res) =>
     res.json()
   );
   // console.log(
@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 }
 export default async function PoemRead({ params }) {
   const data = await fetch(
-    `http://localhost:8080/AuthorsPoems/${params.slug}`
+    `http://localhost:3000/AuthorsPoems/${params.slug}`
   ).then((res) => res.json());
   return (
     <>
