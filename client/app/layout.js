@@ -1,10 +1,10 @@
-// import { headers } from "next/headers";
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
 import { openSans, lora } from "./fonts";
 import Search from "./searchInput";
 import LoginWindow from "./loginWindow";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">

@@ -6,7 +6,7 @@ export default function ReadHead({ changeFontSize }) {
       <div className={styles.headPage}>
         {/* <button className={styles.listen}> */}
         {/* <span class="material-icons" className={styles.listen}> */}
-        <span
+        {/* <span
           className="material-symbols-outlined"
           style={{
             fontSize: "48px",
@@ -14,8 +14,8 @@ export default function ReadHead({ changeFontSize }) {
           }}
           // className={styles.listen}
         >
-          {/* record_voice_over */}
-        </span>
+          record_voice_over
+        </span> */}
         <div
           onClick={changeFontSize}
           style={{ cursor: "pointer", userSelect: "none" }}
