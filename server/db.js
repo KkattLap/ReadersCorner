@@ -4,179 +4,171 @@ const translate = require("@iamtraction/google-translate");
 // const { DESCRIBE } = require("sequelize/lib/query-types");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const bcrypt = require("bcryptjs");
+session = require("express-session");
+passport = require("passport");
+LocalStrategy = require("passport-local").Strategy;
 
 const app = express();
 const port = 8080;
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use(session({ secret: "your secret cat" }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 const sequelize = new Sequelize(
   "postgres://postgres:12345@localhost:5432/readersCorner"
 );
 
-// const Author = sequelize.define(
-//   "Author",
-//   {
-//     author_id: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-//       autoIncrement: true,
-//       primaryKey: true,
-//     },
-//     full_name: {
-//       type: DataTypes.TEXT,
-//       allowNull: false,
-//       defaultValue: "No name",
-//     },
-//     portrait: {
-//       type: DataTypes.TEXT,
-//       allowNull: false,
-//       defaultValue: "https://...",
-//     },
-//     biography: {
-//       type: DataTypes.TEXT,
-//     },
-//   },
-//   {
-//     timestamps: false,
-//   }
-// );
+const User = sequelize.define(
+  "User",
+  {
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    surname: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    user_name: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING(60),
+      allowNull: false,
+    },
+  },
+  {
+    timestamps: true,
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+  }
+);
 
-// const Book = sequelize.define(
-//   "Book",
-//   {
-//     book_id: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-//       autoIncrement: true,
-//       primaryKey: true,
-//     },
-//     book_name: {
-//       type: DataTypes.TEXT,
-//       allowNull: false,
-//     },
-//     cover: {
-//       type: DataTypes.TEXT,
-//       allowNull: false,
-//       defaultValue: "https://...",
-//     },
-//     release_date: {
-//       type: DataTypes.DATE,
-//       allowNull: false,
-//     },
-//     description: {
-//       type: DataTypes.TEXT,
-//     },
-//     level_en: {
-//       type: DataTypes.CHAR(2),
-//       allowNull: false,
-//     },
-//     content: {
-//       type: DataTypes.TEXT,
-//       allowNull: false,
-//     },
-//   },
-//   {
-//     timestamps: false,
-//   }
-// );
+passport.use(
+  new LocalStrategy(
+    {
+      usernameField: "userName", // Используйте 'email' вместо 'username', если это поле так называется в вашем POST-запросе
+      passwordField: "password", // Используйте 'passwd' вместо 'password', если это поле так называется
+    },
+    async (username, password, done) => {
+      console.log(username, password);
+      try {
+        // Найти пользователя по имени пользователя
+        const user = await User.findOne({ where: { user_name: username } });
+        if (!user) {
+          return done(null, false, {
+            message: "Некорректное имя пользователя или пароль",
+          });
+        }
+        console.log(user);
+        // Сравнить предоставленный пароль с хешем в базе данных
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          return done(null, false, {
+            message: "Некорректное имя пользователя или пароль",
+          });
+        }
 
-// const Poem = sequelize.define(
-//   "Poem",
-//   {
-//     poem_id: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-//       autoIncrement: true,
-//       primaryKey: true,
-//     },
-//     poem_name: {
-//       type: DataTypes.TEXT,
-//       allowNull: false,
-//     },
-//     release_date: {
-//       type: DataTypes.DATE,
-//     },
-//     level_en: {
-//       type: DataTypes.CHAR(2),
-//       allowNull: false,
-//     },
-//     content: {
-//       type: DataTypes.TEXT,
-//       allowNull: false,
-//     },
-//     translation_option: {
-//       type: DataTypes.TEXT,
-//     },
-//   },
-//   {
-//     timestamps: false,
-//   }
-// );
+        // Если все проверки пройдены, возвращаем пользователя
+        return done(null, user);
+      } catch (err) {
+        return done(err);
+      }
+    }
+  )
+);
+// идентификатор пользователя сохраняется в сессии
+passport.serializeUser((user, done) => {
+  done(null, user.user_id);
+});
+// извлечь пользователя из базы данных по его идентификатору, сохраненному в сессии
+passport.deserializeUser(async (user_id, done) => {
+  try {
+    const user = await User.findByPk(user_id);
+    done(null, user);
+  } catch (error) {
+    done(error);
+  }
+});
+async function bcryptHash(pass) {
+  const hashedPassword = await bcrypt.hash(pass, 8);
+  return hashedPassword;
+}
 
-// const AuthorsBooks = sequelize.define(
-//   "AuthorsBooks",
-//   {
-//     fk_author_id: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-//       primaryKey: true,
-//       references: {
-//         model: Author,
-//         key: "author_id",
-//       },
-//     },
-//     fk_book_id: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-//       primaryKey: true,
-//       references: {
-//         model: Book,
-//         key: "book_id",
-//       },
-//     },
-//   },
-//   {
-//     timestamps: false,
-//   }
-// );
-// const AuthorsPoems = sequelize.define(
-//   "AuthorsPoems",
-//   {
-//     fk_author_id: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-//       primaryKey: true,
-//       references: {
-//         model: Author,
-//         key: "author_id",
-//       },
-//     },
-//     fk_poem_id: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-//       primaryKey: true,
-//       references: {
-//         model: Poem,
-//         key: "poem_id",
-//       },
-//     },
-//   },
-//   {
-//     timestamps: false,
-//   }
-// );
-// Author.belongsToMany(Book, {
-//   through: AuthorsBooks,
-//   onDelete: "CASCADE",
-//   onUpdate: "CASCADE",
+function checkAuth() {
+  return app.use((req, res, next) => {
+    if (req.user) next();
+    else res.redirect("/login");
+  });
+}
+
+app.post("/auth", async (req, res, next) => {
+  // const { user_name, password } = req.body;
+  // console.log(req.body);
+  // console.log(user_name, password);
+
+  // const hash = await bcryptHash("John2468$");
+  // console.log(hash);
+
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return res.send({
+        success: false,
+        message: "Произошла ошибка аутентификации.",
+      });
+    }
+    if (!user) {
+      return res.send({ success: false, message: info.message });
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return res.send({ success: false, message: "Произошла ошибка входа." });
+      }
+      return res.send({ success: true, message: "Успешный вход!", user: user });
+    });
+  })(req, res, next);
+});
+
+app.post("/registration", async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  console.log(req.body);
+  // await User.sync({ alter: true });
+  const findUser = await User.findOne({
+    where: { user_name: req.body.userName },
+  });
+  if (findUser) {
+    console.log("1");
+    res.send({ success: false, message: "Такое имя уже существует" });
+  } else {
+    // Зашифровать пароль перед отправкой в БД
+    const hashedPassword = await bcrypt.hash(req.body.password, 8);
+    const newUser = await User.create({
+      name: req.body.name,
+      surname: req.body.surname,
+      user_name: req.body.userName,
+      password: hashedPassword,
+    });
+    await newUser.save();
+    console.log("2");
+    res.send({ success: true, message: "Пользователь зарегистрирован" });
+  }
+});
+// app.use((req, res, next) => {
+//   if (req.user) next();
+//   else res.redirect('/login');
 // });
-// Book.belongsToMany(Author, {
-//   through: AuthorsBooks,
-//   onDelete: "CASCADE",
-//   onUpdate: "CASCADE",
-// });
+
 async function authenticateDB() {
   try {
     await sequelize.authenticate();
@@ -249,11 +241,7 @@ app.get("/Authors", async (req, res) => {
   );
   res.send(Authors);
 });
-app.post("/auth", async (req, res) => {
-  const { userName, password } = req.body;
-  console.log(req.body);
-  console.log(userName, password);
-});
+
 app.post("/translate", async (req, res) => {
   const { text } = req.body.text;
   console.log(req.body.text);
