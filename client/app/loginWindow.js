@@ -1,49 +1,34 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Popup from "reactjs-popup";
 import styles from "./loginWindow.module.css";
 import RegistrationWindow from "./registrationWindow";
 import Link from "next/link";
-async function getData() {
-  const res = await fetch("http://localhost:3000/user", {
-    cache: "no-store",
-  });
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
-  const data = res.json();
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error("Failed to fetch data");
-  }
+import { AuthContext } from "./authContext";
+import { useContext } from "react";
 
-  return data;
-}
 export default function LoginWindow() {
+  const { user, handleUser } = useContext(AuthContext);
+  const [userName, setUserName] = useState(false);
   const [formResponse, setFormResponse] = useState({
     success: false,
     message: "",
   });
   const [data, setData] = useState({ userName: "", password: "" });
 
-  const [userName, setUserName] = useState(undefined);
+  useEffect(() => {
+    console.log(user);
+    if (user) setUserName(user.user_name);
+    else setUserName(false);
+  }, [user]);
 
-  const fetchData = async () => {
-    try {
-      const response = await getData();
-      setUserName(response.user_name);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  fetchData();
+  useEffect(() => {
+    handleUser();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("отправка формы");
-    // Хеширование пароля перед отправкой на сервер
-    // const hashedPassword = await bcrypt.hash(data.password, 8);
-    // const dataToSend = { ...data, password: hashedPassword };
-    // console.log(dataToSend);
     const response = await fetch("http://localhost:3000/auth", {
       method: "POST",
       cache: "no-store",
@@ -55,11 +40,12 @@ export default function LoginWindow() {
 
     if (response.ok) {
       console.log("Data sent successfully");
-      // setFormResponse("Data sent successfully");
-      // const message = await response.text();
       const message = await response.json();
       console.log(message);
       setFormResponse({ success: message.success, message: message.message });
+      if (message.success == true) {
+        handleUser();
+      }
     } else {
       console.error("Error sending data");
       setFormResponse({
@@ -82,9 +68,9 @@ export default function LoginWindow() {
           trigger={<button className={styles.loginButton}>Войти</button>}
           position="bottom right"
           arrowStyle={{ color: "#b591ff" }}
-          closeOnDocumentClick={false}
+          // closeOnDocumentClick={false}
+          nested
         >
-          <div>Привет, {userName}</div>
           {/* {showForm && ( */}
           <div className={styles.login}>
             {/* <div className={styles.loginTriangle}></div> */}

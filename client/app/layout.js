@@ -4,8 +4,8 @@ import Image from "next/image";
 import { openSans, lora } from "./fonts";
 import Search from "./searchInput";
 import LoginWindow from "./loginWindow";
-
-export default function RootLayout({ children }) {
+import { AuthProvider } from "./authContext";
+export default function RootLayout({ children, pageProps }) {
   return (
     <html lang="en">
       <head>
@@ -29,76 +29,90 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <header className={openSans.className}>
-          <div className="menu">
-            <Link href="/" className="menu_link">
-              <Image
-                src="/logo.svg"
-                width={86}
-                height={76}
-                alt="logo"
-                className="logo"
-              ></Image>
-            </Link>
-            <Link href="/books" className="menu_link">
-              Книги
-            </Link>
-            <Link href="/poems" className="menu_link">
-              Стихотворения
-            </Link>
-            <Link href="/authors" className="menu_link">
-              Авторы
-            </Link>
-          </div>
-          <Search></Search>
-          <LoginWindow></LoginWindow>
-        </header>
+        <AuthProvider>
+          <header className={openSans.className}>
+            <div className="menu">
+              <Link href="/" className="menu_link">
+                <Image
+                  src="/logo.svg"
+                  width={86}
+                  height={76}
+                  alt="logo"
+                  className="logo"
+                ></Image>
+              </Link>
+              <Link href="/books" className="menu_link">
+                Книги
+              </Link>
+              <Link href="/poems" className="menu_link">
+                Стихотворения
+              </Link>
+              <Link href="/authors" className="menu_link">
+                Авторы
+              </Link>
+            </div>
+            <div className="right_header">
+              <Search></Search>
+              <LoginWindow></LoginWindow>
+            </div>
+          </header>
 
-        <div className="content">{children}</div>
-        <footer className={openSans.className}>
-          <Image
-            src="/logo.svg"
-            width={86}
-            height={76}
-            alt="logo"
-            className="logo"
-          ></Image>
-          <div className="vertLine"></div>
-          <div className="footerItems">
-            <Link href="/">Уровень А1</Link>
-            <Link href="/">Уровень А2</Link>
-          </div>
-          <div className="vertLine2"></div>
-          <div className="footerItems">
-            <Link href="/">Уровень B1</Link>
-            <Link href="/">Уровень B2</Link>
-          </div>
-          <div className="vertLine2"></div>
-          <div className="footerItems">
-            <Link href="/">Уровень C1</Link>
-            <Link href="/">Уровень C2</Link>
-          </div>
-          <div className="vertLine"></div>
-          <div className="contacts">
-            <div className="footerContacts">
-              <Image src="/mail.svg" height={30} width={30} alt="mail"></Image>
-              <p>Mail</p>
+          <div className="content">{children}</div>
+          <footer className={openSans.className}>
+            <Image
+              src="/logo.svg"
+              width={86}
+              height={76}
+              alt="logo"
+              className="logo"
+            ></Image>
+            <div className="vertLine"></div>
+            <div className="footerItems">
+              <Link href="/">Уровень А1</Link>
+              <Link href="/">Уровень А2</Link>
             </div>
-            <div className="footerContacts">
-              <Image src="/call.svg" height={30} width={30} alt="call"></Image>
-              <p>Call</p>
+            <div className="vertLine2"></div>
+            <div className="footerItems">
+              <Link href="/">Уровень B1</Link>
+              <Link href="/">Уровень B2</Link>
             </div>
-            <div className="footerContacts">
-              <Image
-                src="/findUs.svg"
-                height={30}
-                width={30}
-                alt="findUs"
-              ></Image>
-              <p>Find Us</p>
+            <div className="vertLine2"></div>
+            <div className="footerItems">
+              <Link href="/">Уровень C1</Link>
+              <Link href="/">Уровень C2</Link>
             </div>
-          </div>
-        </footer>
+            <div className="vertLine"></div>
+            <div className="contacts">
+              <div className="footerContacts">
+                <Image
+                  src="/mail.svg"
+                  height={30}
+                  width={30}
+                  alt="mail"
+                ></Image>
+                <p>Mail</p>
+              </div>
+              <div className="footerContacts">
+                <Image
+                  src="/call.svg"
+                  height={30}
+                  width={30}
+                  alt="call"
+                ></Image>
+                <p>Call</p>
+              </div>
+              <div className="footerContacts">
+                <Image
+                  src="/findUs.svg"
+                  height={30}
+                  width={30}
+                  alt="findUs"
+                ></Image>
+                <p>Find Us</p>
+              </div>
+            </div>
+          </footer>
+        </AuthProvider>
       </body>
     </html>
   );
