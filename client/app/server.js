@@ -74,6 +74,44 @@ const User = sequelize.define(
   }
 );
 
+const Dictionary = sequelize.define(
+  "Dictionary",
+  {
+    dictionary_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: User,
+        key: "iser_id",
+      },
+    },
+    text: {
+      type: DataTypes.STRING(3000),
+      allowNull: false,
+    },
+    translation: {
+      type: DataTypes.STRING(3000),
+      allowNull: false,
+    },
+  },
+  {
+    timestamps: false,
+  }
+);
+// Связь один-ко-многим
+// User.hasMany(Dictionary, {
+//   onDelete: "CASCADE",
+//   onUpdate: "CASCADE",
+//   foreignKey: "user_id",
+// });
+// Dictionary.belongsTo(User);
+
 passport.use(
   new LocalStrategy(
     {
@@ -81,7 +119,6 @@ passport.use(
       passwordField: "password",
     },
     async (username, password, done) => {
-      console.log(username, password);
       try {
         // Найти пользователя по имени пользователя
         const user = await User.findOne({ where: { user_name: username } });
@@ -193,7 +230,35 @@ app.prepare().then(() => {
   //   if (req.user) next();
   //   else res.redirect('/login');
   // });
+  server.post("/AddDictionary", async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    () => console.log(req.body);
+    const newDictionary = await Dictionary.create({
+      user_id: req.body.userId,
+      text: req.body.text,
+      translation: req.body.translatedText,
+    });
+    await newDictionary.save();
+    const dictionaryId = await newDictionary.dataValues.dictionary_id;
+    res.send({
+      success: true,
+      message: "Текст добавлен в словарь пользователя",
+      id: dictionaryId,
+    });
+  });
+  server.post("/DeleteDictionary", async (req, res) => {
+    console.log(req.body);
+    await Dictionary.destroy({
+      where: {
+        dictionary_id: req.body.dictionaryId,
+      },
+    });
 
+    res.send({
+      success: true,
+      message: "Текст удален из словаря пользователя",
+    });
+  });
   server.get("/AuthorsBooks", async (req, res) => {
     authenticateDB();
 
@@ -261,12 +326,12 @@ app.prepare().then(() => {
   });
 
   server.post("/translate", async (req, res) => {
-    const { text } = req.body.text;
-    console.log(req.body.text);
+    // const { text } = req.body.text;
+    // console.log(req.body.text);
 
     translate(req.body.text, { to: "ru" })
       .then((result) => {
-        console.log(result.text);
+        // console.log(result.text);
         const translatedText = result.text;
         res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         res.status(200).json({ translatedText });
