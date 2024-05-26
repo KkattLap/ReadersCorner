@@ -1,0 +1,10 @@
+.headPage {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #d5c4f8;
+  padding: 1rem;
+  margin-bottom: 3%;
+}

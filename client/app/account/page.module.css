@@ -1,0 +1,101 @@
+.account {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  /* justify-content: center; */
+  height: 90vh;
+}
+
+.profile {
+  /* margin-bottom: 5%; */
+  margin-top: 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.profilePhoto {
+  position: relative;
+  height: 100px;
+  width: 100px;
+  /* background: black; */
+}
+
+.userName {
+  font-size: 1.5rem;
+}
+.popupContent {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  background-color: rgb(232, 232, 232);
+  padding: 2rem;
+  border-radius: 10px;
+}
+.headerFeedback {
+  /* font-size: 1.2rem; */
+  font-weight: 500;
+}
+.sendFeedback {
+  text-decoration: none;
+  color: white;
+  padding: 1rem;
+  background-color: #b591ff;
+  /* inline для выравнивания кнопки */
+  display: inline-flex;
+  justify-content: center;
+  height: fit-content;
+  margin: 2% auto 2%;
+  /* width: 60%; */
+  border-radius: 5px;
+  border: 2px solid #b591ff;
+  box-shadow: 0px 3px 8px 0px rgba(109, 109, 109, 0.5);
+}
+
+.inputGroup {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 1%;
+  align-items: center;
+}
+
+.inputFeedback {
+  width: 75%;
+  height: 42px;
+  background: #fff;
+  border-color: #bbb;
+  color: #555;
+  box-sizing: border-box;
+  display: block;
+  /* width: 100%; */
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 12px;
+  outline: 0;
+  font-family: inherit;
+  font-size: 0.95em;
+  /* display: inline-block; */
+}
+.inputFeedback:focus {
+  border-color: #888;
+}
+.hintFeedback {
+  /* align-self: self-start; */
+  display: inline-block;
+}
+
+.infFeedback {
+  /* color: #4d4d4d; */
+  font-size: 0.8rem;
+  text-align: justify;
+  font-weight: 200;
+}
+
+.exit {
+  text-decoration: none;
+  color: rgb(187, 0, 0);
+}
