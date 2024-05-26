@@ -23,6 +23,7 @@ export default function RegistrationWindow() {
     // const hashedPassword = await bcrypt.hash(data.password, 8);
     // const dataToSend = { ...data, password: hashedPassword };
     // console.log(dataToSend);
+
     const response = await fetch("http://localhost:3000/registration", {
       method: "POST",
       cache: "no-store",
@@ -60,7 +61,7 @@ export default function RegistrationWindow() {
       modal
       nested
       open={open}
-      closeOnDocumentClick={false}
+      // closeOnDocumentClick={false}
       onClose={closeModal}
       onClick={(e) => e.stopPropagation()}
     >
