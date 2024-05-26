@@ -25,6 +25,10 @@ header .menu {
   /* flex-wrap: wrap; */
   align-items: center;
 }
+.right_header {
+  display: flex;
+  align-items: center;
+}
 /* Расстояния между ссылками меняются в зависимости от ширины экрана */
 header .menu .menu_link {
   text-decoration: none;

@@ -41,6 +41,7 @@
   background-color: transparent;
   cursor: pointer;
   padding: 1rem;
+  margin-left: 2rem;
 }
 /* Every row inside .login-container is defined with p tags */
 .loginContainer p {
