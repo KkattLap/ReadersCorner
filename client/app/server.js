@@ -6,40 +6,115 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 session = require("express-session");
-// const { IronSession } = require("iron-session");
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 
 passport = require("passport");
 LocalStrategy = require("passport-local").Strategy;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
-// const path = require("path");
 
 const server = express();
-// server.use("/static", express.static(path.join(__dirname, "static")));
 server.use(bodyParser.json());
 server.use(cors());
 server.use(session({ secret: "your secret cat" }));
 server.use(passport.initialize());
 server.use(passport.session());
-
-// Настройка Iron Session
-// const sessionOptions = {
-//   password: process.env.IRON_SESSION_PASSWORD,
-//   cookieName: "my-session",
-//   // ... (другие настройки)
-// };
-
-// app.use(
-//   IronSession(sessionOptions, {
-//     cookie: {
-//       secure: process.env.NODE_ENV === "production",
-//     },
-//   })
-// );
+server.use(cookieParser());
 
 const sequelize = new Sequelize(
   "postgres://postgres:12345@localhost:5432/readersCorner"
+);
+const Author = sequelize.define(
+  "Author",
+  {
+    author_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    full_name: {
+      type: DataTypes.STRING(500),
+      allowNull: false,
+      defaultValue: "No name",
+    },
+    portrait: {
+      type: DataTypes.STRING(1000),
+      defaultValue: "https://...",
+    },
+    biography: {
+      type: DataTypes.STRING(10000),
+    },
+  },
+  {
+    timestamps: false,
+  }
+);
+
+const Book = sequelize.define(
+  "Book",
+  {
+    book_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    book_name: {
+      type: DataTypes.STRING(500),
+      allowNull: false,
+    },
+    cover: {
+      type: DataTypes.STRING(1000),
+      allowNull: false,
+      defaultValue: "https://...",
+    },
+    release_date: {
+      type: DataTypes.STRING(10),
+    },
+    description: {
+      type: DataTypes.STRING(5000),
+    },
+    level_en: {
+      type: DataTypes.CHAR(2),
+      allowNull: false,
+    },
+    content: {
+      type: DataTypes.STRING(1000),
+      allowNull: false,
+    },
+  },
+  {
+    timestamps: false,
+  }
+);
+const AuthorsBooks = sequelize.define(
+  "AuthorsBooks",
+  {
+    fk_author_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      references: {
+        model: Author,
+        key: "author_id",
+      },
+    },
+    fk_book_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      references: {
+        model: Book,
+        key: "book_id",
+      },
+    },
+  },
+  {
+    timestamps: false,
+  }
 );
 const User = sequelize.define(
   "User",
@@ -66,6 +141,9 @@ const User = sequelize.define(
       type: DataTypes.STRING(60),
       allowNull: false,
     },
+    role: {
+      type: DataTypes.STRING(5),
+    },
   },
   {
     timestamps: true,
@@ -88,7 +166,7 @@ const Dictionary = sequelize.define(
       allowNull: false,
       references: {
         model: User,
-        key: "iser_id",
+        key: "user_id",
       },
     },
     text: {
@@ -102,6 +180,42 @@ const Dictionary = sequelize.define(
   },
   {
     timestamps: false,
+  }
+);
+
+const Wish = sequelize.define(
+  "Wish",
+  {
+    wish_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: User,
+        key: "user_id",
+      },
+    },
+    author_name: {
+      type: DataTypes.STRING(500),
+      allowNull: false,
+    },
+    book_name: {
+      type: DataTypes.STRING(500),
+      allowNull: false,
+    },
+    answer: {
+      type: DataTypes.STRING(1000),
+    },
+  },
+  {
+    timestamps: true,
+    createdAt: "created_at",
+    updatedAt: "updated_at",
   }
 );
 // Связь один-ко-многим
@@ -127,7 +241,6 @@ passport.use(
             message: "Некорректное имя пользователя или пароль",
           });
         }
-        console.log(user);
         // Сравнить предоставленный пароль с хешем в базе данных
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
@@ -136,15 +249,32 @@ passport.use(
           });
         }
 
-        // Если все проверки пройдены, возвращаем пользователя
-        // req.session.user = user;
+        console.log("Все проверки пройдены");
+        // Если все проверки пройдены
         return done(null, user);
       } catch (err) {
+        console.log("EROR");
         return done(err);
       }
     }
   )
 );
+// Middleware для валидации JWT
+const authenticateJWT = (req, res, next) => {
+  const token = req.cookies.jwt; // Извлечение токена
+
+  if (!token) {
+    return res.status(401).json({ message: "Неавторизованный доступ" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "your_secret_key"); // Валидация токена
+    req.user = decoded; // Добавление информации о пользователе в req.user
+    next();
+  } catch (error) {
+    return res.status(403).json({ message: "Неверный токен" });
+  }
+};
 // идентификатор пользователя сохраняется в сессии
 passport.serializeUser((user, done) => {
   done(null, user.user_id);
@@ -171,9 +301,23 @@ async function authenticateDB() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 app.prepare().then(() => {
   // Express.js routes and middleware go here
-  server.get("/user", async (req, res) => {
-    if (req.user) res.json(req.user);
-    else res.json({});
+  // API endpoint, защищенный JWT
+  server.get("/user", authenticateJWT, (req, res) => {
+    if (!req.user) {
+      return res.status(401).json({ message: "Неавторизованный доступ" });
+    }
+
+    res.send(req.user);
+  });
+  server.get("/userDictionary", authenticateJWT, async (req, res) => {
+    console.log("userdict", req.user);
+    if (req.user) {
+      authenticateDB();
+      const userDictionary = await Dictionary.findAll({
+        where: { user_id: req.user.userId },
+      });
+      res.send(userDictionary);
+    } else res.send(false);
   });
 
   server.post("/auth", async (req, res, next) => {
@@ -194,6 +338,19 @@ app.prepare().then(() => {
             message: "Произошла ошибка входа.",
           });
         }
+        // Сессию легко подделать, данные о пользователе будут браться из куки
+        const token = jwt.sign(
+          {
+            userId: req.user.user_id,
+            userName: req.user.user_name,
+            name: req.user.name,
+            surname: req.user.surname,
+            role: req.user.role,
+          },
+          "your_secret_key",
+          { expiresIn: "1h" }
+        );
+        res.cookie("jwt", token, { httpOnly: true });
         return res.send({
           success: true,
           message: "Успешный вход!",
@@ -204,8 +361,9 @@ app.prepare().then(() => {
 
   server.post("/registration", async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    // User.sync({ alter: true });
     console.log(req.body);
-    // await User.sync({ alter: true });
+    console.log(req.body.userName);
     const findUser = await User.findOne({
       where: { user_name: req.body.userName },
     });
@@ -220,16 +378,14 @@ app.prepare().then(() => {
         surname: req.body.surname,
         user_name: req.body.userName,
         password: hashedPassword,
+        role: "user",
       });
       await newUser.save();
       console.log("2");
       res.send({ success: true, message: "Пользователь зарегистрирован" });
     }
   });
-  // app.use((req, res, next) => {
-  //   if (req.user) next();
-  //   else res.redirect('/login');
-  // });
+
   server.post("/AddDictionary", async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
     () => console.log(req.body);
@@ -259,6 +415,91 @@ app.prepare().then(() => {
       message: "Текст удален из словаря пользователя",
     });
   });
+
+  server.post("/wishes", async (req, res) => {
+    // Wish.sync({ alter: true });
+    const newWish = await Wish.create({
+      user_id: req.body.userId,
+      author_name: req.body.authorName,
+      book_name: req.body.bookName,
+    });
+    await newWish.save();
+  });
+
+  server.get("/getWishes", async (req, res) => {
+    const wishes = await Wish.findAll();
+    res.send(wishes);
+  });
+  server.get("/getWish", async (req, res) => {
+    const answers = await Wish.findAll({
+      where: {
+        user_id: req.body.userId,
+      },
+    });
+    res.send(answers);
+  });
+  server.post("/setAnswer", async (req, res) => {
+    const answer = await Wish.update(
+      {
+        answer: req.body.message,
+      },
+      {
+        where: {
+          wish_id: req.body.wishId,
+        },
+      }
+    );
+    if (answer) res.send("Ответ добавлен");
+    else res.send("Не удалось добавить ответ");
+  });
+
+  server.post("/addBook", async (req, res) => {
+    console.log(req.body);
+    const newBook = await Book.create({
+      book_name: req.body.bookName,
+      cover: req.body.cover,
+      release_date: req.body.release,
+      description: req.body.description,
+      level_en: req.body.levelEn,
+      content: req.body.content,
+    });
+    await newBook.save();
+    const bookId = await newBook.dataValues.book_id;
+
+    const author = await Author.findOne({
+      where: {
+        full_name: req.body.authorName,
+      },
+    });
+
+    // Если такой автор уже есть - добавить только связь между таблицами
+    if (author) {
+      const authorId = await author.dataValues.author_id;
+      const newAuthorsBooks = await AuthorsBooks.create({
+        fk_author_id: authorId,
+        fk_book_id: bookId,
+      });
+      await newAuthorsBooks.save();
+      res.send("Новая книга добавлена");
+    }
+    // Если автора нет - добавить автора и связь
+    else {
+      const newAuthor = await Author.create({
+        full_name: req.body.authorName,
+        portrait: req.body.portrait,
+        biography: req.body.biography,
+      });
+      await newAuthor.save();
+      const newAuthorId = await newAuthor.dataValues.author_id;
+      const newAuthorsBooks = await AuthorsBooks.create({
+        fk_author_id: newAuthorId,
+        fk_book_id: bookId,
+      });
+      await newAuthorsBooks.save();
+      res.send("Новая книга и автор добавлены");
+    }
+  });
+
   server.get("/AuthorsBooks", async (req, res) => {
     authenticateDB();
 
@@ -270,7 +511,6 @@ app.prepare().then(() => {
     ON public."Books".book_id = public."AuthorsBooks".fk_book_id`
     );
     res.send(allAuthorBooks);
-    // res.json({ message: "This is a custom API route." });
   });
 
   server.get("/AuthorsBooks/:id", async (req, res) => {
