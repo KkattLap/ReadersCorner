@@ -52,24 +52,6 @@ export default function Read({ bookText }) {
 
       console.log(message);
       return message.id;
-      // if (startState === 1) {
-      //   setIconStates((prevStates) => {
-      //     // Переключаем состояние иконки
-      //     // const newState = prevStates[id].state === "add" ? "check" : "add";
-      //     return {
-      //       ...prevStates,
-      //       [id]: { state: newState, addDictionary: message.id },
-      //     };
-      //   });
-      // } else if (startState === 0) {
-      //   setIconStates((prevStates) => {
-      //     // Переключаем состояние иконки
-      //     return {
-      //       ...prevStates,
-      //       [id]: { state: "add", addDictionary: false },
-      //     };
-      //   });
-      // }
     } else {
       console.error("Error sending data");
     }
@@ -97,36 +79,6 @@ export default function Read({ bookText }) {
           [id]: { state: "check", addDictionary: dicId },
         };
       });
-      // Добавить в словарь пользователя
-      // const response = await fetch("http://localhost:3000/AddDictionary", {
-      //   method: "POST",
-      //   cache: "no-store",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     userId: user.user_id,
-      //     text: selections[id].text,
-      //     translatedText: translatedText[id].textTranslate,
-      //   }),
-      // });
-
-      // if (response.ok) {
-      //   console.log("Data sent successfully");
-      //   const message = await response.json();
-
-      //   console.log(message);
-      //   setIconStates((prevStates) => {
-      //     // Переключаем состояние иконки
-      //     const newState = prevStates[id] === "add" ? "check" : "add";
-      //     return {
-      //       ...prevStates,
-      //       [id]: { state: newState, addDictionary: message.id },
-      //     };
-      //   });
-      // } else {
-      //   console.error("Error sending data");
-      // }
     } else if (iconStates[id].state === "check") {
       console.log("added");
       // Удалить из словаря пользователя
@@ -290,12 +242,13 @@ export default function Read({ bookText }) {
                 [i]: { state: "add", addDictionary: false },
               };
             })} */}
-            <span
-              id={i}
-              onClick={() => handleIconClick(i)}
-              className={`material-symbols-outlined ${styles.add}`}
-            >
-              {/* {iconStates[i] ? (
+            {user && (
+              <span
+                id={i}
+                onClick={() => handleIconClick(i)}
+                className={`material-symbols-outlined ${styles.add}`}
+              >
+                {/* {iconStates[i] ? (
                 iconStates[i].state ? (
                   iconStates[i].state === "check" && (
                     <span className="material-symbols-outlined">check</span>
@@ -308,12 +261,13 @@ export default function Read({ bookText }) {
               ) : (
                 <span className="material-symbols-outlined">add</span>
               )} */}
-              {showIcon(i) === "add" ? (
-                <span className="material-symbols-outlined">add</span>
-              ) : (
-                <span className="material-symbols-outlined">check</span>
-              )}
-            </span>
+                {showIcon(i) === "add" ? (
+                  <span className="material-symbols-outlined">add</span>
+                ) : (
+                  <span className="material-symbols-outlined">check</span>
+                )}
+              </span>
+            )}
           </div>
         </li>
       ))}
