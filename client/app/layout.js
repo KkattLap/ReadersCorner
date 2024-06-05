@@ -50,6 +50,9 @@ export default function RootLayout({ children, pageProps }) {
               <Link href="/authors" className="menu_link">
                 Авторы
               </Link>
+              <Link href="/dictionary" className="menu_link">
+                Словарь
+              </Link>
             </div>
             <div className="right_header">
               <Search></Search>
@@ -67,7 +70,7 @@ export default function RootLayout({ children, pageProps }) {
               className="logo"
             ></Image>
             <div className="vertLine"></div>
-            <div className="footerItems">
+            {/* <div className="footerItems">
               <Link href="/">Уровень А1</Link>
               <Link href="/">Уровень А2</Link>
             </div>
@@ -80,6 +83,13 @@ export default function RootLayout({ children, pageProps }) {
             <div className="footerItems">
               <Link href="/">Уровень C1</Link>
               <Link href="/">Уровень C2</Link>
+            </div> */}
+            <div className="textFooter">
+              Unlock the power of reading in English with ReadersCorner.
+              Discover new books, enjoy instant translations, and enhance your
+              language skills. Don't miss the opportunity to improve your
+              English and broaden your horizons. Start your exciting journey
+              into the world of knowledge right now!
             </div>
             <div className="vertLine"></div>
             <div className="contacts">
@@ -90,7 +100,7 @@ export default function RootLayout({ children, pageProps }) {
                   width={30}
                   alt="mail"
                 ></Image>
-                <p>Mail</p>
+                <p>ReadersCorner@gmail.com</p>
               </div>
               <div className="footerContacts">
                 <Image
@@ -99,9 +109,9 @@ export default function RootLayout({ children, pageProps }) {
                   width={30}
                   alt="call"
                 ></Image>
-                <p>Call</p>
+                <p>+7-951-531-77-55</p>
               </div>
-              <div className="footerContacts">
+              {/* <div className="footerContacts">
                 <Image
                   src="/findUs.svg"
                   height={30}
@@ -109,7 +119,7 @@ export default function RootLayout({ children, pageProps }) {
                   alt="findUs"
                 ></Image>
                 <p>Find Us</p>
-              </div>
+              </div> */}
             </div>
           </footer>
         </AuthProvider>
