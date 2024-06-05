@@ -1,0 +1,55 @@
+.dictionaryPage {
+  width: 80vw;
+  /* Сверху и снизу 0, авто слева и справа */
+  margin: 0 auto;
+  margin-top: 1rem;
+}
+.dictionary {
+  text-align: center;
+  background-color: rgb(230, 230, 230);
+}
+.headerTable {
+  display: flex;
+  padding: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #e3e2e2;
+}
+.dictionaryTable {
+  /* display: grid; */
+  /* grid-template-columns: repeat(3, 350px); */
+  /* justify-content: center;
+  justify-items: center;
+  column-gap: 2rem;
+  row-gap: 2rem; */
+  display: flex;
+  padding: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #e3e2e2;
+  /* border-radius: 5px; */
+}
+
+.textItem {
+  width: 35vw;
+}
+
+.textItemDelete {
+  width: 5vw;
+  cursor: pointer;
+  color: rgb(187, 0, 0);
+  z-index: 9999;
+}
+
+.notAuth {
+  padding: 2rem;
+  text-align: center;
+  color: rgb(187, 0, 0);
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  background-color: #e3e2e2;
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+}
