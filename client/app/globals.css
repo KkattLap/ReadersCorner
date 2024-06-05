@@ -3,6 +3,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-width: 1024px;
 }
 header {
   display: flex;
@@ -32,7 +33,7 @@ header .menu {
 /* Расстояния между ссылками меняются в зависимости от ширины экрана */
 header .menu .menu_link {
   text-decoration: none;
-  margin-right: 10vw;
+  margin-right: 5vw;
   color: black;
 }
 /* Для выравнивания поля ввода и кнопки поиска */
@@ -47,6 +48,11 @@ footer {
   margin-top: 1rem;
   flex-shrink: 0;
   padding: 1rem;
+  background-color: #f1f0f0;
+}
+.textFooter {
+  width: 40vw;
+  color: #8c8b8b;
 }
 .vertLine {
   height: 100px;
