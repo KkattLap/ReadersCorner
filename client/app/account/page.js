@@ -6,36 +6,57 @@ import Link from "next/link";
 import { openSans } from "../fonts";
 import { AuthContext } from "@/app/authContext";
 import { useContext } from "react";
-
-async function getData() {
-  const res = await fetch("http://localhost:3000/user", {
-    cache: "no-store",
-  });
-  const data = res.json();
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  return data;
-}
+import { useRouter } from "next/navigation";
 
 export default function Account() {
-  // const [user, setUser] = useState({});
-  const { user, exitUser } = useContext(AuthContext);
-  // const [clickedFeedback, setClickedFeedback] = useState(false);
+  const [message, setMessage] = useState(false);
+  const { user, exitUser, handleUser } = useContext(AuthContext);
+  const router = useRouter();
+  if (user.role != "user") router.replace("/");
+  // Изменить состояние user после авторизации
+  useEffect(() => {
+    handleUser();
+    setData({
+      ...data,
+      userId: user.userId,
+    });
+  }, []);
+  const [data, setData] = useState({
+    userId: false,
+    authorName: "",
+    bookName: "",
+  });
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const response = await getData();
-  //       setUser(response);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    // setData({
+    //   ...data,
+    //   userId: user.userId,
+    // });
+    console.log(user);
+    console.log(data);
+    const response = await fetch("http://localhost:3000/wishes", {
+      method: "POST",
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
+    if (response.ok) {
+      console.log("Data sent successfully");
+      const message = await response.json();
+      setMessage("Ваше заявление отправлено");
+    } else {
+      console.error("Error sending data");
+      setMessage("Не удалось отправить заявление");
+    }
+  };
+  const handleChange = (event) => {
+    // определение и изменение состояния изменившегося поля
+    setData({ ...data, [event.target.name]: event.target.value });
+  };
   const handleExit = () => {
     exitUser();
   };
@@ -47,7 +68,7 @@ export default function Account() {
             <Image
               src="/profile.svg"
               fill
-              alt="cover"
+              alt="profile"
               objectFit="contain"
             ></Image>
           </div>
@@ -59,19 +80,39 @@ export default function Account() {
           Предложить книгу и получить отзыв
         </button> */}
         {/* {clickedFeedback && ( */}
-        <div className={styles.popupContent}>
+        <form className={styles.popupContent} onSubmit={handleSubmit}>
           <p className={`${styles.headerFeedback} ${openSans.className}`}>
             Предложить книгу и получить отзыв
           </p>
           <div className={styles.inputGroup}>
             <p className={styles.hintFeedback}>Название</p>
-            <input className={styles.inputFeedback}></input>
+            <input
+              name="authorName"
+              value={data.authorName}
+              type="text"
+              placeholder="ФИО автора"
+              onChange={handleChange}
+              className={styles.inputFeedback}
+              required
+            ></input>
           </div>
           <div className={styles.inputGroup}>
             <p className={styles.hintFeedback}>Автор</p>
-            <input className={styles.inputFeedback}></input>
+            <input
+              name="bookName"
+              value={data.bookName}
+              type="text"
+              placeholder="Название книги"
+              onChange={handleChange}
+              className={styles.inputFeedback}
+              required
+            ></input>
           </div>
-          <button className={styles.sendFeedback}>Отправить</button>
+          <input
+            type="submit"
+            className={styles.sendFeedback}
+            value="Отправить"
+          ></input>
           <div className={`${styles.infFeedback} ${openSans.className}`}>
             Вы можете предложить добавить новую книгу на сайт. После отправки
             ваше заявление будет рассматриваться максимум в течение 3 дней.
@@ -79,10 +120,12 @@ export default function Account() {
             пункте "Ответы на предложения". Первое заявление для новых
             пользователей бесплатно!
           </div>
-        </div>
+        </form>
         {/* ) } */}
         <div>Ответы на предложения</div>
-        <div>Словарь</div>
+        <Link href="/dictionary" className={styles.dictionaryLink}>
+          Словарь
+        </Link>
         <Link href="/" onClick={handleExit} className={styles.exit}>
           Выйти
         </Link>
