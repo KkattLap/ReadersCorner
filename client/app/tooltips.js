@@ -2,6 +2,8 @@ import Image from "next/image";
 import styles from "./tooltips.module.css";
 
 export default function Tooltips() {
+  const widthTooltip = 25;
+  const heightTooltip = 25;
   return (
     <>
       {/* Блок2 */}
@@ -9,8 +11,8 @@ export default function Tooltips() {
         <div
           style={{
             position: "relative",
-            width: "35vw",
-            height: "35vh",
+            width: `${widthTooltip}vw`,
+            height: `${heightTooltip}vh`,
             aspectRatio: "1/1",
             // background: "yellow",
             // background: "black",
@@ -27,8 +29,8 @@ export default function Tooltips() {
         <div
           style={{
             position: "relative",
-            width: "35vw",
-            height: "35vh",
+            width: `${widthTooltip}vw`,
+            height: `${heightTooltip}vh`,
             aspectRatio: "1/1",
             // background: "black",
           }}
@@ -46,8 +48,8 @@ export default function Tooltips() {
         <div
           style={{
             position: "relative",
-            width: "35vw",
-            height: "35vh",
+            width: `${widthTooltip}vw`,
+            height: `${heightTooltip}vh`,
             aspectRatio: "1/1",
             // background: "black",
           }}
@@ -63,8 +65,8 @@ export default function Tooltips() {
         <div
           style={{
             position: "relative",
-            width: "35vw",
-            height: "35vh",
+            width: `${widthTooltip}vw`,
+            height: `${heightTooltip}vh`,
             aspectRatio: "1/1",
             // background: "black",
           }}
