@@ -1,0 +1,125 @@
+.admin {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+  width: 90%;
+  margin: 1rem auto;
+}
+.panelHeader {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  background-color: #e3e2e2;
+  height: 3rem;
+}
+.panelName {
+  font-size: 1.2rem;
+  margin: auto;
+}
+
+.tableName {
+  background-color: #e3e2e2;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* align-items: center; */
+}
+.table {
+  margin-top: 0.5rem;
+}
+
+.exit {
+  color: rgb(187, 0, 0);
+  margin-right: 0.5rem;
+}
+.adminTable,
+.adminTableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #e3e2e2;
+}
+.adminTableHeader {
+  border: 2px solid #a8a8a8;
+  height: 2rem;
+}
+.itemName {
+  width: 40%;
+  text-align: center;
+}
+
+.itemId {
+  width: 5%;
+}
+
+.itemAnswer {
+  color: green;
+  cursor: pointer;
+}
+
+.answerForm {
+  display: flex;
+  justify-content: space-around;
+  border: 2px solid #e3e2e2;
+}
+.postPart {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.formAdd {
+  margin-top: 5%;
+}
+.instruction {
+  padding: 0.5rem;
+}
+.inputAnswer {
+  width: 75%;
+  height: 42px;
+  background: #fff;
+  border-color: #bbb;
+  color: #555;
+  box-sizing: border-box;
+  display: block;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 12px;
+  outline: 0;
+  font-family: inherit;
+  font-size: 0.95em;
+  margin: 2%;
+}
+
+.answer {
+  height: 50%;
+  width: 100%;
+}
+.adminAnswer {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.sendButton {
+  text-decoration: none;
+  color: white;
+  padding: 1rem;
+  background-color: #b591ff;
+  /* inline для выравнивания кнопки */
+  display: inline-flex;
+  justify-content: center;
+  height: fit-content;
+  margin: 2% auto 2%;
+  /* width: 60%; */
+  border-radius: 5px;
+  border: 2px solid #b591ff;
+  box-shadow: 0px 3px 8px 0px rgba(109, 109, 109, 0.5);
+}
