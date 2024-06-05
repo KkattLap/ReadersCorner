@@ -22,6 +22,7 @@ export default function Home() {
             className={lora.className}
             style={{
               fontSize: "1rem",
+              minWidth: "450px",
             }}
           >
             Параллельный перевод - твой ключ к успеху в мире знаний. Теперь вы
