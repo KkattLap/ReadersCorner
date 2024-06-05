@@ -1,13 +1,21 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./loginWindow.module.css";
 import Link from "next/link";
 import Popup from "reactjs-popup";
-const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 export default function RegistrationWindow() {
   const [open, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
+  const [formResponse, setFormResponse] = useState({
+    success: false,
+    message: "",
+  });
+  useEffect(() => {
+    console.log(formResponse.message);
+    console.log(formResponse);
+  }, [formResponse]);
 
   const [data, setData] = useState({
     name: "",
@@ -18,12 +26,6 @@ export default function RegistrationWindow() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("отправка формы");
-    // Хеширование пароля перед отправкой на сервер
-    // const hashedPassword = await bcrypt.hash(data.password, 8);
-    // const dataToSend = { ...data, password: hashedPassword };
-    // console.log(dataToSend);
-
     const response = await fetch("http://localhost:3000/registration", {
       method: "POST",
       cache: "no-store",
@@ -35,12 +37,11 @@ export default function RegistrationWindow() {
 
     if (response.ok) {
       console.log("Data sent successfully");
-      const message = await response.text();
-      console.log(message);
-      // setFormResponse("Data sent successfully");
+      const message = await response.json();
+      console.log(message.message);
+      setFormResponse({ success: message.success, message: message.message });
     } else {
       console.error("Error sending data");
-      // setFormResponse("Error sending data");
     }
   };
 
@@ -86,6 +87,7 @@ export default function RegistrationWindow() {
                 type="text"
                 placeholder="Name"
                 onChange={handleChange}
+                required
               />
             </p>
             <p>
@@ -95,6 +97,7 @@ export default function RegistrationWindow() {
                 type="text"
                 placeholder="Surname"
                 onChange={handleChange}
+                required
               />
             </p>
             <p>
@@ -104,8 +107,14 @@ export default function RegistrationWindow() {
                 type="text"
                 placeholder="User name"
                 onChange={handleChange}
+                required
               />
+              <div style={{ color: "rgb(187, 0, 0)", fontSize: "0.9rem" }}>
+                {formResponse.message == "Такое имя уже существует" &&
+                  formResponse.message}
+              </div>
             </p>
+
             <p>
               <input
                 name="password"
@@ -113,10 +122,16 @@ export default function RegistrationWindow() {
                 type="password"
                 placeholder="Password"
                 onChange={handleChange}
+                required
               />
             </p>
             <p>
-              <input type="submit" value="Log in" />
+              <div style={{ color: "green", fontSize: "1rem" }}>
+                {formResponse.success == true && formResponse.message}
+              </div>
+            </p>
+            <p>
+              <input type="submit" value="Registration" />
             </p>
           </form>
         </div>

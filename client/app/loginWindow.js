@@ -15,13 +15,13 @@ export default function LoginWindow() {
     message: "",
   });
   const [data, setData] = useState({ userName: "", password: "" });
-
+  // Если пользователь поменялся или вышел из кабинета - изменить соостояние
+  // В шапке меняется имя пользователя
   useEffect(() => {
-    console.log(user);
-    if (user) setUserName(user.user_name);
+    if (user) setUserName(user.userName);
     else setUserName(false);
   }, [user]);
-
+  // Изменить состояние user после авторизации
   useEffect(() => {
     handleUser();
   }, []);
@@ -52,7 +52,6 @@ export default function LoginWindow() {
         success: false,
         message: "Ошибка при отправке данных",
       });
-      // setFormResponse("Error sending data");
     }
   };
 
@@ -68,12 +67,9 @@ export default function LoginWindow() {
           trigger={<button className={styles.loginButton}>Войти</button>}
           position="bottom right"
           arrowStyle={{ color: "#b591ff" }}
-          // closeOnDocumentClick={false}
           nested
         >
-          {/* {showForm && ( */}
           <div className={styles.login}>
-            {/* <div className={styles.loginTriangle}></div> */}
             <h2 className={styles.loginHeader}>Log in</h2>
             <form className={styles.loginContainer} onSubmit={handleSubmit}>
               <p>
@@ -83,6 +79,7 @@ export default function LoginWindow() {
                   type="text"
                   placeholder="User name"
                   onChange={handleChange}
+                  required
                 />
               </p>
               <p>
@@ -92,6 +89,7 @@ export default function LoginWindow() {
                   type="password"
                   placeholder="Password"
                   onChange={handleChange}
+                  required
                 />
               </p>
               <p>
@@ -115,7 +113,10 @@ export default function LoginWindow() {
         </Popup>
       )}
       {userName && (
-        <Link href="/account" className={styles.loginButton}>
+        <Link
+          href={user.role == "user" ? "/account" : "/admin"}
+          className={styles.loginButton}
+        >
           {userName}
         </Link>
       )}
