@@ -95,6 +95,10 @@
   font-weight: 200;
 }
 
+.dictionaryLink {
+  text-decoration: none;
+  color: black;
+}
 .exit {
   text-decoration: none;
   color: rgb(187, 0, 0);
