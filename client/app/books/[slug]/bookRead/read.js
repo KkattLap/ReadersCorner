@@ -20,20 +20,8 @@ export default function Read({ bookText }) {
   const [largeText, setLargeText] = useState(false);
   const [iconStates, setIconStates] = useState({});
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await getData();
-  //       setUserId(response.user_id);
-  //       console.log(userId, user);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [user]);
-  async function getData(id, startState) {
-    const response = await fetch("http://localhost:3000/AddDictionary", {
+  async function getData(id) {
+    const response = await fetch("https://localhost:3000/AddDictionary", {
       method: "POST",
       cache: "no-store",
       headers: {
@@ -83,7 +71,7 @@ export default function Read({ bookText }) {
       console.log("added");
       // Удалить из словаря пользователя
 
-      const response = await fetch("http://localhost:3000/DeleteDictionary", {
+      const response = await fetch("https://localhost:3000/DeleteDictionary", {
         method: "POST",
         cache: "no-store",
         headers: {
@@ -149,7 +137,7 @@ export default function Read({ bookText }) {
           // Получение перевода выделенного текста
           (async () => {
             try {
-              const response = await fetch("http://localhost:3000/translate", {
+              const response = await fetch("https://localhost:3000/translate", {
                 cache: "no-store",
                 method: "POST",
                 headers: {
@@ -248,19 +236,6 @@ export default function Read({ bookText }) {
                 onClick={() => handleIconClick(i)}
                 className={`material-symbols-outlined ${styles.add}`}
               >
-                {/* {iconStates[i] ? (
-                iconStates[i].state ? (
-                  iconStates[i].state === "check" && (
-                    <span className="material-symbols-outlined">check</span>
-                  )
-                ) : (
-                  iconStates[i].state === "add" && (
-                    <span className="material-symbols-outlined">add</span>
-                  )
-                )
-              ) : (
-                <span className="material-symbols-outlined">add</span>
-              )} */}
                 {showIcon(i) === "add" ? (
                   <span className="material-symbols-outlined">add</span>
                 ) : (

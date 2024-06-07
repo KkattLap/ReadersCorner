@@ -2,11 +2,12 @@
 import { AuthContext } from "@/app/authContext";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { openSans } from "../fonts";
 
 async function getWishes() {
-  const res = await fetch("http://localhost:3000/getWishes", {
+  const res = await fetch("https://localhost:3000/getWishes", {
     cache: "no-store",
   });
   const data = res.json();
@@ -38,7 +39,8 @@ export default function Admin() {
     wishId: undefined,
     message: "",
   });
-  if ((user.role = "user")) router.replace("/");
+  const router = useRouter();
+  if (user.role == "user") router.replace("/");
   const handleChange = (event) => {
     // определение и изменение состояния изменившегося поля
     setData({ ...data, [event.target.name]: event.target.value });
@@ -80,7 +82,7 @@ export default function Admin() {
     console.log("Отправка формы1");
     console.log(data);
 
-    const response = await fetch("http://localhost:3000/addBook", {
+    const response = await fetch("https://localhost:3000/addBook", {
       method: "POST",
       cache: "no-store",
       headers: {
@@ -105,7 +107,7 @@ export default function Admin() {
     console.log("Отправка формы2");
     console.log(message);
 
-    const response = await fetch("http://localhost:3000/setAnswer", {
+    const response = await fetch("https://localhost:3000/setAnswer", {
       method: "POST",
       cache: "no-store",
       headers: {

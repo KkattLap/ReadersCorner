@@ -5,7 +5,7 @@ import Read from "./read";
 
 export default async function BookRead({ params }) {
   const data = await fetch(
-    `http://localhost:3000/AuthorsBooks/${params.slug}`,
+    `https://localhost:3000/AuthorsBooks/${params.slug}`,
     {
       cache: "no-store",
     }

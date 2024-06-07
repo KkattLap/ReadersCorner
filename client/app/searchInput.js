@@ -6,7 +6,7 @@ import styles from "./searchInput.module.css";
 const KEYS_TO_FILTERS = ["full_name", "book_name"];
 
 async function getData() {
-  const res = await fetch("http://localhost:3000/AuthorsBooks", {
+  const res = await fetch("https://localhost:3000/AuthorsBooks", {
     cache: "no-store",
   });
   const data = res.json();

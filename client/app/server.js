@@ -8,6 +8,16 @@ const bcrypt = require("bcryptjs");
 session = require("express-session");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+const { createServer } = require("https");
+const { parse } = require("url");
+const fs = require("fs");
+const https = require("https");
+const port = 3000;
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+const httpsOptions = {
+  key: fs.readFileSync("./app/cert/key.pem"),
+  cert: fs.readFileSync("./app/cert/cert.pem"),
+};
 
 passport = require("passport");
 LocalStrategy = require("passport-local").Strategy;
@@ -430,7 +440,7 @@ app.prepare().then(() => {
     const wishes = await Wish.findAll();
     res.send(wishes);
   });
-  server.get("/getWish", async (req, res) => {
+  server.post("/getWish", async (req, res) => {
     const answers = await Wish.findAll({
       where: {
         user_id: req.body.userId,
@@ -566,9 +576,6 @@ app.prepare().then(() => {
   });
 
   server.post("/translate", async (req, res) => {
-    // const { text } = req.body.text;
-    // console.log(req.body.text);
-
     translate(req.body.text, { to: "ru" })
       .then((result) => {
         // console.log(result.text);
@@ -583,8 +590,27 @@ app.prepare().then(() => {
   server.get("*", (req, res) => {
     return handle(req, res);
   });
-  server.listen(3000, (err) => {
-    if (err) throw err;
-    console.log("> Ready on <http://localhost:3000>");
-  });
+  // server.listen(3000, (err) => {
+  //   if (err) throw err;
+  //   console.log("> Ready on <http://localhost:3000>");
+  // });
+  // createServer(httpsOptions, (req, res) => {
+  //   // const parsedUrl = parse(req.url, true);
+  //   // handle(req, res, parsedUrl);
+  // }).listen(port, (err) => {
+  //   if (err) throw err;
+  //   console.log("ready - started server on url: https://localhost:" + port);
+  // });
+  https
+    .createServer(
+      {
+        key: fs.readFileSync("./app/cert/key.pem"),
+        cert: fs.readFileSync("./app/cert/cert.pem"),
+      },
+      server
+    )
+    .listen(port, (err) => {
+      if (err) throw err;
+      console.log("ready - started server on url: https://localhost:" + port);
+    });
 });

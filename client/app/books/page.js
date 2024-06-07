@@ -6,14 +6,11 @@ import { lora } from "../fonts";
 import { useState, useEffect } from "react";
 
 async function getData() {
-  const res = await fetch("http://localhost:3000/AuthorsBooks", {
+  const res = await fetch("https://localhost:3000/AuthorsBooks", {
     cache: "no-store",
   });
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
   const data = res.json();
   if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
     throw new Error("Failed to fetch data");
   }
 
@@ -21,7 +18,6 @@ async function getData() {
 }
 
 export default function Books() {
-  // const result = await getData();
   const [items, setItems] = useState([]);
 
   const [filters, setFilters] = useState({
@@ -84,7 +80,6 @@ export default function Books() {
   } else {
     filteredData = filterCatalog();
   }
-  // console.log(filteredData);
   return (
     <>
       <div className={`${styles.chooseLevel} ${lora.className}`}>
@@ -153,14 +148,6 @@ export default function Books() {
         </div>
       </div>
       <div className={styles.catalog}>
-        {/* {SAMPLE_DATA.map((item) => (
-          <BookCard
-            key={item.id}
-            cover={item.cover}
-            name={item.name}
-            author={item.author}
-          ></BookCard>
-        ))} */}
         {filteredData.map((item) => (
           <BookCard
             key={item.book_id}

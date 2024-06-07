@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 }
 export default async function PoemRead({ params }) {
   const data = await fetch(
-    `http://localhost:3000/AuthorsPoems/${params.slug}`
+    `https://localhost:3000/AuthorsPoems/${params.slug}`
   ).then((res) => res.json());
   return (
     <>

@@ -29,7 +29,7 @@ export default function LoginWindow() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("отправка формы");
-    const response = await fetch("http://localhost:3000/auth", {
+    const response = await fetch("https://localhost:3000/auth", {
       method: "POST",
       cache: "no-store",
       headers: {

@@ -26,7 +26,7 @@ export default function RegistrationWindow() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch("http://localhost:3000/registration", {
+    const response = await fetch("https://localhost:3000/registration", {
       method: "POST",
       cache: "no-store",
       headers: {
@@ -57,27 +57,19 @@ export default function RegistrationWindow() {
           Зарегистрироваться
         </Link>
       }
-      //   position="center"
-      // className={styles.registration}
       modal
-      nested
       open={open}
-      // closeOnDocumentClick={false}
       onClose={closeModal}
-      onClick={(e) => e.stopPropagation()}
     >
       <div className={styles.registration}>
-        <div onClick={(e) => e.stopPropagation()}>
-          <button
-            type="button"
-            className="button"
-            onClick={() => setOpen((o) => !o)}
-          >
-            Controlled Popup
-          </button>
-          <a className="close" onClick={closeModal}>
-            &times;
-          </a>
+        <button
+          type="button"
+          className={styles.closeModal}
+          onClick={() => setOpen((o) => !o)}
+        >
+          Х
+        </button>
+        <div className={styles.modalRegist}>
           <h2 className={styles.loginHeader}>Registration</h2>
           <form className={styles.loginContainer} onSubmit={handleSubmit}>
             <p>

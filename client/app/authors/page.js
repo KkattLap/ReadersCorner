@@ -3,13 +3,13 @@ import { SAMPLE_DATA } from "../data";
 import Link from "next/link";
 import { lora } from "../fonts";
 export default async function Authors() {
-  const res1 = await fetch("http://localhost:3000/AuthorsBooks", {
+  const res1 = await fetch("https://localhost:3000/AuthorsBooks", {
     cache: "no-store",
   });
-  const res2 = await fetch("http://localhost:3000/AuthorsPoems", {
+  const res2 = await fetch("https://localhost:3000/AuthorsPoems", {
     cache: "no-store",
   });
-  const res3 = await fetch("http://localhost:3000/AllAuthors", {
+  const res3 = await fetch("https://localhost:3000/AllAuthors", {
     cache: "no-store",
   });
   const data1 = await res1.json();
@@ -27,7 +27,7 @@ export default async function Authors() {
   data2.map((item) => {
     countMap[item.fk_author_id] = (countMap[item.fk_author_id] || 0) + 1;
   });
-  const keys = Object.keys(countMap);
+
   return (
     <>
       <div className={`${styles.mainTable} ${lora.className}`}>

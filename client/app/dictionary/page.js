@@ -12,7 +12,7 @@ export default function Dictionary() {
     // console.log(dictionary);
   }, [user]);
   const handleItemDelete = async (id) => {
-    const response = await fetch("http://localhost:3000/DeleteDictionary", {
+    const response = await fetch("https://localhost:3000/DeleteDictionary", {
       method: "POST",
       cache: "no-store",
       headers: {

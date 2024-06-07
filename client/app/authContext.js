@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 import Cookies from "js-cookie";
 export const AuthContext = createContext();
 async function getData() {
-  const res = await fetch("http://localhost:3000/user", {
+  const res = await fetch("https://localhost:3000/user", {
     cache: "no-store",
   });
   const data = res.json();
@@ -15,7 +15,7 @@ async function getData() {
   return data;
 }
 async function getUserDictionary() {
-  const res = await fetch("http://localhost:3000/userDictionary", {
+  const res = await fetch("https://localhost:3000/userDictionary", {
     cache: "no-store",
   });
   const data = res.json();
