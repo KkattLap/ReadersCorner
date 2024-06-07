@@ -7,10 +7,31 @@ import { openSans } from "../fonts";
 import { AuthContext } from "@/app/authContext";
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
+import Popup from "reactjs-popup";
+
+async function getWishes(id) {
+  const res = await fetch("https://localhost:3000/getWish", {
+    method: "POST",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ userId: id }),
+  });
+  const data = res.json();
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return data;
+}
 
 export default function Account() {
   const [message, setMessage] = useState(false);
   const { user, exitUser, handleUser } = useContext(AuthContext);
+  const [wishes, setWishes] = useState(undefined);
+  const [open, setOpen] = useState(false);
+  const closeModal = () => setOpen(false);
   const router = useRouter();
   if (user.role != "user") router.replace("/");
   // Изменить состояние user после авторизации
@@ -20,7 +41,20 @@ export default function Account() {
       ...data,
       userId: user.userId,
     });
+    // Ответы администратора на предложения
+    const fetchWishes = async () => {
+      try {
+        console.log(user);
+        const response = await getWishes(user.userId);
+        console.log(response);
+        setWishes(response);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchWishes();
   }, []);
+
   const [data, setData] = useState({
     userId: false,
     authorName: "",
@@ -29,13 +63,7 @@ export default function Account() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // setData({
-    //   ...data,
-    //   userId: user.userId,
-    // });
-    console.log(user);
-    console.log(data);
-    const response = await fetch("http://localhost:3000/wishes", {
+    const response = await fetch("https://localhost:3000/wishes", {
       method: "POST",
       cache: "no-store",
       headers: {
@@ -76,10 +104,6 @@ export default function Account() {
             {user.name} {user.surname}
           </div>
         </div>
-        {/* <button onClick={() => setClickedFeedback(!clickedFeedback)}>
-          Предложить книгу и получить отзыв
-        </button> */}
-        {/* {clickedFeedback && ( */}
         <form className={styles.popupContent} onSubmit={handleSubmit}>
           <p className={`${styles.headerFeedback} ${openSans.className}`}>
             Предложить книгу и получить отзыв
@@ -122,7 +146,39 @@ export default function Account() {
           </div>
         </form>
         {/* ) } */}
-        <div>Ответы на предложения</div>
+        <Popup
+          trigger={<div>Ответы на предложения</div>}
+          modal
+          open={open}
+          onClose={closeModal}
+          closeOnDocumentClick
+        >
+          <div className={styles.modal}>
+            <button
+              type="button"
+              className={styles.closeModal}
+              onClick={() => setOpen((o) => !o)}
+            >
+              Х
+            </button>
+            <div className={styles.wishPopup}>
+              <div className={styles.rowAnswer}>
+                <div>Предложения</div>
+                <div>Ответы</div>
+              </div>
+              {wishes &&
+                wishes.map((item) => (
+                  <div key={item.wish_id} className={styles.rowAnswer}>
+                    <div className={styles.itemWish}>
+                      <div>Автор: {item.author_name}</div>{" "}
+                      <div>Книга: {item.book_name}</div>
+                    </div>
+                    <div className={styles.itemWish}>{item.answer}</div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </Popup>
         <Link href="/dictionary" className={styles.dictionaryLink}>
           Словарь
         </Link>

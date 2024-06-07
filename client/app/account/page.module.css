@@ -99,6 +99,41 @@
   text-decoration: none;
   color: black;
 }
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+.wishPopup {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  width: 80vw;
+  height: 50vh;
+  overflow: auto;
+  padding: 2rem;
+  background-color: rgb(244, 244, 244);
+  border: 2px solid #e3e2e2;
+  border-radius: 5px;
+}
+.rowAnswer {
+  width: 75vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #e3e2e2;
+}
+.itemWish {
+  width: 40%;
+}
+.closeModal {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  border: none;
+}
 .exit {
   text-decoration: none;
   color: rgb(187, 0, 0);
