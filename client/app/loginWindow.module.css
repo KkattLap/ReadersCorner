@@ -11,6 +11,12 @@
 }
 .registration {
   width: 30vw;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+.modalRegist {
+  width: 100%;
 }
 /* Reset top and bottom margins from certain elements */
 .loginHeader,
@@ -84,7 +90,10 @@
   background: #ab83fc;
 }
 
-/* Buttons' focus effect */
-/* .login input[type="submit"]:focus {
-  background: #805ec4;
-} */
+.closeModal {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  border: none;
+}
