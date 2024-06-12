@@ -27,7 +27,7 @@ async function getWishes(id) {
 }
 
 export default function Account() {
-  const [message, setMessage] = useState(false);
+  const [message, setMessage] = useState("");
   const { user, exitUser, handleUser } = useContext(AuthContext);
   const [wishes, setWishes] = useState(undefined);
   const [open, setOpen] = useState(false);
@@ -62,6 +62,7 @@ export default function Account() {
   });
 
   const handleSubmit = async (event) => {
+    setMessage("Ваше заявление отправлено");
     event.preventDefault();
     const response = await fetch("https://localhost:3000/wishes", {
       method: "POST",
@@ -71,15 +72,6 @@ export default function Account() {
       },
       body: JSON.stringify(data),
     });
-
-    if (response.ok) {
-      console.log("Data sent successfully");
-      const message = await response.json();
-      setMessage("Ваше заявление отправлено");
-    } else {
-      console.error("Error sending data");
-      setMessage("Не удалось отправить заявление");
-    }
   };
   const handleChange = (event) => {
     // определение и изменение состояния изменившегося поля
@@ -109,7 +101,7 @@ export default function Account() {
             Предложить книгу и получить отзыв
           </p>
           <div className={styles.inputGroup}>
-            <p className={styles.hintFeedback}>Название</p>
+            <p className={styles.hintFeedback}>Автор</p>
             <input
               name="authorName"
               value={data.authorName}
@@ -121,7 +113,7 @@ export default function Account() {
             ></input>
           </div>
           <div className={styles.inputGroup}>
-            <p className={styles.hintFeedback}>Автор</p>
+            <p className={styles.hintFeedback}>Название</p>
             <input
               name="bookName"
               value={data.bookName}
@@ -132,6 +124,7 @@ export default function Account() {
               required
             ></input>
           </div>
+          <div style={{ color: "green", fontSize: "1rem" }}>{message}</div>
           <input
             type="submit"
             className={styles.sendFeedback}

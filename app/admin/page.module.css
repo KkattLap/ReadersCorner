@@ -57,6 +57,7 @@
 .itemAnswer {
   color: green;
   cursor: pointer;
+  width: 5%;
 }
 
 .answerForm {

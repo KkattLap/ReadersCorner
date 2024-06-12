@@ -3,9 +3,9 @@ import { lora, openSans } from "@/app/fonts";
 import styles from "./page.module.css";
 
 export async function generateStaticParams() {
-  const cards = await fetch("http://localhost:3000/AuthorsPoems").then((res) =>
-    res.json()
-  );
+  const cards = await fetch("https://localhost:3000/AuthorsPoems", {
+    cache: "no-store",
+  }).then((res) => res.json());
   // console.log(
   //   cards.map((card) => ({
   //     slug: card.book_name,
@@ -17,7 +17,10 @@ export async function generateStaticParams() {
 }
 export default async function PoemRead({ params }) {
   const data = await fetch(
-    `https://localhost:3000/AuthorsPoems/${params.slug}`
+    `https://localhost:3000/AuthorsPoems/${params.slug}`,
+    {
+      cache: "no-store",
+    }
   ).then((res) => res.json());
   return (
     <>
@@ -33,7 +36,7 @@ export default async function PoemRead({ params }) {
         </div>
         <div className={styles.poemEN}>
           <div className={`${lora.className} ${styles.headPoem}`}>
-            <div>{data[0].full_name}</div>
+            <div>{data[0].full_name_en}</div>
             <div>{data[0].poem_name_en}</div>
           </div>
           <div className={`${lora.className}`}>

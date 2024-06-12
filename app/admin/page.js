@@ -103,10 +103,18 @@ export default function Admin() {
   };
   // отправка ответа пользователю
   const handleSubmitAnswer = async (event) => {
+    setWishes((prevWishes) => {
+      return prevWishes.map((wish) => {
+        if (message.wishId === wish.wish_id) {
+          return { ...wish, answer: "done" };
+        } else {
+          return wish;
+        }
+      });
+    });
     event.preventDefault();
     console.log("Отправка формы2");
     console.log(message);
-
     const response = await fetch("https://localhost:3000/setAnswer", {
       method: "POST",
       cache: "no-store",
@@ -149,12 +157,17 @@ export default function Admin() {
               <div className={styles.itemId}>{item.user_id}</div>
               <div className={styles.itemName}>{item.author_name}</div>
               <div className={styles.itemName}>{item.book_name}</div>
-              <div
-                className={styles.itemAnswer}
-                onClick={() => handleAnswer(id)}
-              >
-                Ответить
-              </div>
+              {!item.answer && (
+                <div
+                  className={styles.itemAnswer}
+                  onClick={() => handleAnswer(id)}
+                >
+                  Ответить
+                </div>
+              )}
+              {item.answer && (
+                <div style={{ color: "red", width: "5%" }}>Done</div>
+              )}
             </div>
           ))}
       </div>
