@@ -101,10 +101,10 @@ export default function RegistrationWindow() {
                 onChange={handleChange}
                 required
               />
-              <div style={{ color: "rgb(187, 0, 0)", fontSize: "0.9rem" }}>
+              <span style={{ color: "rgb(187, 0, 0)", fontSize: "0.9rem" }}>
                 {formResponse.message == "Такое имя уже существует" &&
                   formResponse.message}
-              </div>
+              </span>
             </p>
 
             <p>
@@ -118,9 +118,9 @@ export default function RegistrationWindow() {
               />
             </p>
             <p>
-              <div style={{ color: "green", fontSize: "1rem" }}>
+              <span style={{ color: "green", fontSize: "1rem" }}>
                 {formResponse.success == true && formResponse.message}
-              </div>
+              </span>
             </p>
             <p>
               <input type="submit" value="Registration" />
